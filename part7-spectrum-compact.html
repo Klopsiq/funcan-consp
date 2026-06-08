@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Часть VII. Производные, сопряжённые, спектр и компактность (61–73)</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root { --bg:#fafaf8; --fg:#1a1a1a; --muted:#666; --accent:#2563eb;
+          --border:#d1d5db; --card:#ffffff; --proof-bg:#f3f4f6; }
+  * { box-sizing:border-box; }
+  body { font-family:'Charter','Georgia','Times New Roman',serif; line-height:1.7;
+         max-width:880px; margin:0 auto; padding:32px 24px 100px;
+         background:var(--bg); color:var(--fg); font-size:17px; }
+  h1 { font-size:1.9em; border-bottom:2px solid var(--fg); padding-bottom:8px; }
+  .nav { margin:12px 0 28px; font-size:0.95em; }
+  .nav a { color:var(--accent); text-decoration:none; margin-right:14px; }
+  .nav a:hover { text-decoration:underline; }
+  .ticket { background:var(--card); border:1px solid var(--border);
+            border-radius:8px; padding:22px 26px; margin:28px 0; }
+  .ticket h2 { margin-top:0; font-size:1.25em; color:var(--accent); }
+  .source-mark { background:#f0f9ff; border-left:3px solid #0891b2;
+                 padding:6px 12px; margin:6px 0 12px; font-size:0.85em;
+                 color:#0e7490; font-style:italic; }
+  .label { display:inline-block; font-weight:bold; color:#374151;
+           text-transform:uppercase; font-size:0.78em; letter-spacing:0.06em;
+           margin-top:14px; margin-bottom:2px; }
+  .def, .thm, .lemma, .example, .remark {
+    border-left:3px solid var(--border); padding-left:14px; margin:10px 0;
+  }
+  .def { border-color:#10b981; }
+  .thm { border-color:#dc2626; }
+  .lemma { border-color:#7c3aed; }
+  .example { border-color:#0891b2; }
+  .remark { border-color:#9ca3af; font-style:italic; color:#444; }
+  .proof, .solution { background:var(--proof-bg); padding:12px 16px; margin:8px 0;
+                      border-radius:6px; font-size:0.97em; }
+  .proof::before { content:"Доказательство."; display:block; font-weight:bold;
+                   margin-bottom:6px; }
+  .solution::before { content:"Решение."; display:block; font-weight:bold;
+                      margin-bottom:6px; }
+  .proof-steps { margin:6px 0 2px; padding-left:24px; }
+  .proof-steps > li { margin:12px 0; padding-left:3px; }
+  .why { color:#4b5563; font-style:italic; }
+  .qed { float:right; }
+  ul, ol { padding-left:22px; }
+  li { margin:4px 0; }
+  .toc { background:#eef2ff; padding:14px 22px; border-radius:8px; font-size:0.95em; }
+  .toc a { color:var(--accent); text-decoration:none; }
+  .toc a:hover { text-decoration:underline; }
+  .warning { background:#fff8dc; border-left:4px solid #f59e0b;
+             padding:10px 14px; margin:12px 0; font-size:0.94em; }
+  .formula-list > div { margin:10px 0; }
+</style>
+</head>
+<body>
+
+<h1>Часть VII. Производные, сопряжённые операторы, спектр и компактность</h1>
+<div class="nav">
+  <a href="index.html">← оглавление</a>
+  <a href="part6-operators.html">← Часть VI</a>
+</div>
+
+<div class="toc">
+<strong>Содержание:</strong>
+<ol start="61">
+  <li><a href="#b61">Матричные производные.</a></li>
+  <li><a href="#b62">Ближайшая симметричная матрица.</a></li>
+  <li><a href="#b63">Сопряжённые операторы и их норма.</a></li>
+  <li><a href="#b64">Аннулятор ядра оператора.</a></li>
+  <li><a href="#b65">Сопряжённый оператор в евклидовом пространстве.</a></li>
+  <li><a href="#b66">Спектр и классификация его точек.</a></li>
+  <li><a href="#b67">Резольвента и спектральный радиус.</a></li>
+  <li><a href="#b68">Компактные операторы.</a></li>
+  <li><a href="#b69">Основные свойства компактных операторов.</a></li>
+  <li><a href="#b70">Собственные значения компактного оператора.</a></li>
+  <li><a href="#b71">Компактные операторы в гильбертовом пространстве.</a></li>
+  <li><a href="#b72">Инвариантные подпространства.</a></li>
+  <li><a href="#b73">Теорема Гильберта–Шмидта.</a></li>
+</ol>
+</div>
+
+<div class="ticket" id="b61">
+<h2>Билет 61. Матричные производные.</h2>
+<div class="source-mark">Список тем и ДЗ №9. В книге Колмогорова–Фомина матричное дифференцирование не рассматривается.</div>
+
+<div class="def">
+Для отображения $f$ производная Фреше в точке $X$ — линейное отображение
+$Df(X)$, для которого
+$$f(X+H)=f(X)+Df(X)[H]+o(\|H\|).$$
+На пространстве вещественных матриц используем скалярное произведение Фробениуса
+$$\langle U,V\rangle_F=\operatorname{tr}(U^TV),$$
+а градиент определяется равенством
+$$Df(X)[H]=\langle\nabla f(X),H\rangle_F.$$
+</div>
+
+<div class="thm formula-list">
+<div><strong>(a)</strong> $f(x)=\langle x,c\rangle$:
+$$Df(x)[h]=\langle h,c\rangle,\qquad \nabla f(x)=c.$$</div>
+<div><strong>(b)</strong> $f(x)=\langle Ax,x\rangle$:
+$$Df(x)[h]=\langle Ah,x\rangle+\langle Ax,h\rangle,\qquad
+\nabla f(x)=(A^T+A)x.$$</div>
+<div><strong>(c)</strong> $f(x)=\ln\langle Ax,x\rangle$, где
+$\langle Ax,x\rangle>0$:
+$$Df(x)[h]=
+\frac{\langle Ah,x\rangle+\langle Ax,h\rangle}{\langle Ax,x\rangle},
+\qquad
+\nabla f(x)=\frac{(A^T+A)x}{\langle Ax,x\rangle}.$$</div>
+<div><strong>(d)</strong> $f(X)=\operatorname{tr}X$:
+$$Df(X)[H]=\operatorname{tr}H,\qquad \nabla f(X)=I.$$</div>
+<div><strong>(e)</strong> $f(X)=X^{-1}$ на $GL_n$:
+$$Df(X)[H]=-X^{-1}HX^{-1}.$$</div>
+<div><strong>(f)</strong> $f(X)=\det X$:
+$$Df(X)[H]=\det X\,\operatorname{tr}(X^{-1}H),\qquad
+\nabla f(X)=\det X\,X^{-T}$$
+для обратимого $X$. Для любого $X$:
+$Df(X)[H]=\operatorname{tr}(\operatorname{adj}(X)H)$.</div>
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Линейный функционал.</strong><br>
+    <span class="why">Зачем:</span> это базовый пример, где приращение уже линейно.
+    $$f(x+h)-f(x)=\langle h,c\rangle.$$
+    Остатка нет, поэтому указанное выражение и есть производная.
+  </li>
+  <li>
+    <strong>Шаг 2. Квадратичная форма.</strong><br>
+    <span class="why">Зачем:</span> отделяем линейную по $h$ часть от квадратичного
+    остатка.
+    \begin{align*}
+    f(x+h)-f(x)
+    &amp;=\langle A(x+h),x+h\rangle-\langle Ax,x\rangle\\
+    &amp;=\langle Ah,x\rangle+\langle Ax,h\rangle+\langle Ah,h\rangle.
+    \end{align*}
+    Последнее слагаемое есть $O(\|h\|^2)=o(\|h\|)$.
+  </li>
+  <li>
+    <strong>Шаг 3. Логарифм квадратичной формы.</strong><br>
+    <span class="why">Зачем:</span> применяем цепное правило к уже найденной производной.
+    Для $q(x)=\langle Ax,x\rangle$ имеем
+    $$D(\ln q)(x)[h]=\frac{Dq(x)[h]}{q(x)},$$
+    что даёт формулу из пункта (c).
+  </li>
+  <li>
+    <strong>Шаг 4. След.</strong><br>
+    <span class="why">Зачем:</span> линейность следа сразу выделяет дифференциал.
+    $$\operatorname{tr}(X+H)-\operatorname{tr}X=\operatorname{tr}H
+    =\operatorname{tr}(I^TH).$$
+  </li>
+  <li>
+    <strong>Шаг 5. Обратная матрица.</strong><br>
+    <span class="why">Зачем:</span> точное алгебраическое тождество сразу выделяет
+    линейную часть и остаток второго порядка.
+    Имеем
+    \begin{align*}
+    (X+H)^{-1}-X^{-1}
+    &amp;=-(X+H)^{-1}HX^{-1},\\
+    (X+H)^{-1}-X^{-1}+X^{-1}HX^{-1}
+    &amp;=X^{-1}H(X+H)^{-1}HX^{-1}.
+    \end{align*}
+    Последняя величина есть $O(\|H\|^2)$ при малых $H$. Поэтому линейная часть
+    равна $-X^{-1}HX^{-1}$.
+  </li>
+  <li>
+    <strong>Шаг 6. Определитель.</strong><br>
+    <span class="why">Зачем:</span> сводим приращение к определителю матрицы,
+    близкой к единичной.
+    Для обратимого $X$
+    $$\det(X+H)=\det X\cdot\det(I+X^{-1}H).$$
+    Так как $\det(I+K)=1+\operatorname{tr}K+o(\|K\|)$, то
+    $$\det(X+H)-\det X
+    =\det X\,\operatorname{tr}(X^{-1}H)+o(\|H\|).$$
+    Полиномиальная формула через $\operatorname{adj}(X)$ продолжает результат на
+    необратимые матрицы. <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+</div>
+
+<div class="ticket" id="b62">
+<h2>Билет 62. Ближайшая к заданной матрице симметричная матрица.</h2>
+<div class="source-mark">Список тем и задача 3 из ДЗ №9. В списке тем слово «симметричная» опущено; условие восстановлено по листку ДЗ.</div>
+
+<div class="def">
+Норма Фробениуса:
+$$\|A\|_F=\sqrt{\sum_{i,j}|a_{ij}|^2}
+=\sqrt{\operatorname{tr}(A^TA)}.$$
+Требуется решить
+$$\|X-A\|_F\to\min,\qquad X=X^T.$$
+</div>
+
+<div class="thm">
+Единственная ближайшая симметричная матрица:
+$$\boxed{\quad X_*=\frac{A+A^T}{2}.\quad}$$
+Минимальное расстояние равно
+$$\operatorname{dist}(A,\mathrm{Sym}_n)
+=\left\|\frac{A-A^T}{2}\right\|_F.$$
+</div>
+
+<div class="solution">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Разложим матрицу на две части.</strong><br>
+    <span class="why">Зачем:</span> выделяем допустимую симметричную составляющую.
+    $$A=S+K,\qquad S=\frac{A+A^T}{2},\qquad K=\frac{A-A^T}{2},$$
+    где $S^T=S$, а $K^T=-K$.
+  </li>
+  <li>
+    <strong>Шаг 2. Проверим ортогональность частей.</strong><br>
+    <span class="why">Зачем:</span> тогда можно применить теорему Пифагора.
+    Для любой симметричной $Y$
+    $$\langle Y,K\rangle_F=\operatorname{tr}(Y^TK)=0,$$
+    поскольку симметричные и кососимметричные матрицы ортогональны.
+  </li>
+  <li>
+    <strong>Шаг 3. Сравним расстояния.</strong><br>
+    <span class="why">Зачем:</span> отделяем неизбежную ошибку $K$ от выбираемой части.
+    Для симметричной $X$
+    $$\|A-X\|_F^2=\|(S-X)+K\|_F^2
+    =\|S-X\|_F^2+\|K\|_F^2.$$
+    Минимум достигается единственно при $X=S$.
+  </li>
+</ol>
+</div>
+</div>
+
+<div class="ticket" id="b63">
+<h2>Билет 63. Сопряжённые операторы. Связь норм.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §5, п. 5, стр. 230–232.</div>
+
+<div class="def">
+Пусть $A\in L(E,F)$. Сопряжённый оператор
+$$A^*:F^*\to E^*$$
+задаётся формулой
+$$(A^*g)(x)=g(Ax),\qquad g\in F^*,\ x\in E.$$
+Иными словами, $A^*g=g\circ A$.
+</div>
+
+<div class="example">
+В конечномерных вещественных пространствах матрица $A^*$ в двойственных базисах
+есть $A^T$. Для интегрального оператора в $L_2[a,b]$ с ядром $K(t,s)$ сопряжённый
+имеет ядро $\overline{K(s,t)}$.
+</div>
+
+<div class="thm">
+Для любого ограниченного линейного оператора
+$$\boxed{\quad \|A^*\|=\|A\|.\quad}$$
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Получим верхнюю оценку.</strong><br>
+    <span class="why">Зачем:</span> определение сопряжённого сразу контролирует его
+    действие нормой $A$.
+    Для $g\in F^*$ и $x\in E$
+    $$|(A^*g)(x)|=|g(Ax)|\le\|g\|\,\|A\|\,\|x\|.$$
+    Значит, $\|A^*g\|\le\|A\|\|g\|$ и $\|A^*\|\le\|A\|$.
+  </li>
+  <li>
+    <strong>Шаг 2. Выберем функционал, почти достигающий норму на $Ax$.</strong><br>
+    <span class="why">Зачем:</span> теорема Хана–Банаха позволит получить обратную
+    оценку.
+    Для $x$ с $Ax\ne0$ существует $g\in F^*$ такой, что
+    $$\|g\|=1,\qquad g(Ax)=\|Ax\|.$$
+  </li>
+  <li>
+    <strong>Шаг 3. Сравним нормы.</strong><br>
+    <span class="why">Зачем:</span> переводим величину $\|Ax\|$ в значение $A^*g$.
+    $$\|Ax\|=|(A^*g)(x)|\le\|A^*\|\,\|x\|.$$
+    После супремума по $\|x\|\le1$ получаем $\|A\|\le\|A^*\|$.
+    Обе оценки дают равенство. <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+
+<div class="remark">
+Полезные формулы:
+$$(A+B)^*=A^*+B^*,\qquad (\lambda A)^*=\lambda A^*
+\quad\text{(в банаховом смысле)},\qquad (BA)^*=A^*B^*.$$
+</div>
+</div>
+
+<div class="ticket" id="b64">
+<h2>Билет 64. Теорема об аннуляторе ядра оператора.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §5, п. 5, стр. 232; используется лемма о тройке со стр. 228.</div>
+
+<div class="def">
+Для подпространства $M\subset E$ его аннулятор:
+$$M^\perp=\{f\in E^*:f(x)=0\ \text{для всех }x\in M\}.$$
+</div>
+
+<div class="thm">
+Пусть $E,F$ — банаховы пространства и $A\in L(E,F)$ отображает $E$ на всё $F$.
+Тогда
+$$\boxed{\quad (\ker A)^\perp=\operatorname{Im}A^*.\quad}$$
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Докажем простое включение.</strong><br>
+    <span class="why">Зачем:</span> любой функционал из образа $A^*$ автоматически
+    обязан обращаться в ноль на ядре $A$.
+    Если $f=A^*g$, то для $x\in\ker A$
+    $$f(x)=g(Ax)=g(0)=0.$$
+    Следовательно, $\operatorname{Im}A^*\subseteq(\ker A)^\perp$.
+  </li>
+  <li>
+    <strong>Шаг 2. Возьмём функционал из аннулятора.</strong><br>
+    <span class="why">Зачем:</span> надо представить его в виде композиции с $A$.
+    Пусть $f\in(\ker A)^\perp$. Условие
+    $$\ker f\supseteq\ker A$$
+    означает, что значение $f(x)$ зависит только от $Ax$.
+  </li>
+  <li>
+    <strong>Шаг 3. Применим лемму о тройке.</strong><br>
+    <span class="why">Зачем:</span> она обеспечивает не только факторизацию, но и
+    непрерывность полученного функционала.
+    К операторам
+    $$f:E\to\mathbb F,\qquad A:E\to F$$
+    применима лемма о тройке. Поэтому существует $g\in F^*$ такое, что
+    $$f=g\circ A=A^*g.$$
+    Значит, $(\ker A)^\perp\subseteq\operatorname{Im}A^*$.
+  </li>
+  <li>
+    <strong>Шаг 4. Соединим включения.</strong><br>
+    Получаем требуемое равенство. <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+
+<div class="example">
+Если $A:E\to\mathbb F^m$ сюръективен, то всякий функционал, исчезающий на системе
+однородных уравнений $Ax=0$, является линейной комбинацией координат оператора $A$.
+</div>
+
+<div class="warning">
+Без сюръективности или условия замкнутости образа равенство с
+$\operatorname{Im}A^*$ в общем случае неверно. Всегда верно только включение
+$\operatorname{Im}A^*\subseteq(\ker A)^\perp$.
+</div>
+</div>
+
+<div class="ticket" id="b65">
+<h2>Билет 65. Сопряжённый оператор в евклидовом пространстве.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §5, п. 6, стр. 232–234.</div>
+
+<div class="def">
+Для $A\in L(H)$ в гильбертовом пространстве сопряжённый оператор определяется
+равенством
+$$\langle Ax,y\rangle=\langle x,A^*y\rangle
+\qquad\text{для всех }x,y\in H.$$
+Его существование и единственность следуют из теоремы Рисса.
+</div>
+
+<div class="def">
+В вещественном евклидовом пространстве матрица сопряжённого оператора равна $A^T$.
+В комплексном пространстве используется эрмитово-сопряжённая матрица
+$$A^*=\overline A^{\,T}.$$
+</div>
+
+<div class="def">
+Оператор называется <em>самосопряжённым</em>, если $A=A^*$, то есть
+$$\langle Ax,y\rangle=\langle x,Ay\rangle.$$
+В вещественном случае это симметрическая матрица, в комплексном — эрмитова.
+</div>
+
+<div class="remark">
+Свойства:
+$$(A+B)^*=A^*+B^*,\qquad
+(\alpha A)^*=\overline\alpha A^*,\qquad
+(AB)^*=B^*A^*,\qquad (A^*)^*=A.$$
+Собственные значения самосопряжённого оператора вещественны, а собственные векторы,
+отвечающие различным собственным значениям, ортогональны.
+</div>
+</div>
+
+<div class="ticket" id="b66">
+<h2>Билет 66. Спектр оператора. Классификация точек спектра.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §5, п. 7, стр. 234–236; расширенная классификация — задача 3 из ДЗ №11.</div>
+
+<div class="def">
+Пусть $A\in L(E)$, где $E$ — комплексное банахово пространство. Обозначим
+$T_\lambda=A-\lambda I$. Если $T_\lambda$ обратим и $T_\lambda^{-1}\in L(E)$,
+то $\lambda$ — регулярная точка. Множество остальных точек называется спектром:
+$$\rho(A)=\{\lambda:T_\lambda\in GL(E)\},\qquad
+\sigma(A)=\mathbb C\setminus\rho(A).$$
+</div>
+
+<div class="def">
+Расширенная классификация:
+<ol>
+  <li><strong>Точечный спектр</strong>
+  $$\sigma_p(A)=\{\lambda:\ker T_\lambda\ne\{0\}\}.$$</li>
+  <li><strong>Непрерывный спектр</strong>
+  $$\sigma_c(A)=\{\lambda\notin\sigma_p(A):
+  \overline{\operatorname{Im}T_\lambda}=E,\
+  \operatorname{Im}T_\lambda\ne E\}.$$</li>
+  <li><strong>Остаточный спектр</strong>
+  $$\sigma_r(A)=\{\lambda\notin\sigma_p(A):
+  \overline{\operatorname{Im}T_\lambda}\ne E\}.$$</li>
+</ol>
+</div>
+
+<div class="thm">
+Эта классификация эквивалентна основной: собственные значения совпадают с точечным
+спектром, а случай существования обратного оператора только на
+$\operatorname{Im}T_\lambda$ разбивается на непрерывный и остаточный спектры по
+плотности образа.
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Сопоставим точечный спектр.</strong><br>
+    <span class="why">Зачем:</span> ненулевое ядро означает ровно существование
+    собственного вектора.
+    $$T_\lambda x=0,\ x\ne0
+    \quad\Longleftrightarrow\quad Ax=\lambda x.$$
+  </li>
+  <li>
+    <strong>Шаг 2. Рассмотрим инъективный, но несюръективный случай.</strong><br>
+    <span class="why">Зачем:</span> именно здесь обратный существует только на образе.
+    Если $\ker T_\lambda=\{0\}$, то корректно определён
+    $$T_\lambda^{-1}:\operatorname{Im}T_\lambda\to E.$$
+    Если образ не плотен, по определению получаем остаточный спектр.
+  </li>
+  <li>
+    <strong>Шаг 3. Исследуем плотный образ.</strong><br>
+    <span class="why">Зачем:</span> нужно показать, почему это именно непрерывный
+    спектр, а не регулярная точка.
+    Пусть $\overline{\operatorname{Im}T_\lambda}=E$, но
+    $\operatorname{Im}T_\lambda\ne E$. Обратный на образе не может быть ограничен:
+    иначе он продолжился бы по непрерывности на всё $E$. Для продолжения $B$ равенства
+    $$BT_\lambda=I,\qquad T_\lambda B=I$$
+    сохранялись бы по плотности и непрерывности, что сделало бы $T_\lambda$
+    сюръективным. Противоречие.
+  </li>
+  <li>
+    <strong>Шаг 4. Проверим исчерпываемость.</strong><br>
+    <span class="why">Зачем:</span> классификация должна покрывать все точки.
+    Для каждого $\lambda$ сначала либо $\ker T_\lambda\ne0$, либо
+    $T_\lambda$ инъективен. Во втором случае образ либо равен $E$, либо не равен;
+    если не равен, он либо плотен, либо не плотен. Случай
+    $\operatorname{Im}T_\lambda=E$ даёт регулярную точку по теореме Банаха об
+    обратном операторе. Остальные случаи — $\sigma_c$ и $\sigma_r$.
+    <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+</div>
+
+<div class="ticket" id="b67">
+<h2>Билет 67. Резольвента. Регулярные точки. Спектральный радиус.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §5, п. 7, стр. 235–236.</div>
+
+<div class="def">
+Для $\lambda\in\rho(A)$ резольвентой называется
+$$R_\lambda(A)=(A-\lambda I)^{-1}.$$
+</div>
+
+<div class="thm">
+Если $A\in L(E)$ и $|\lambda|>\|A\|$, то $\lambda$ — регулярная точка и
+$$R_\lambda(A)
+=-\frac1\lambda\sum_{k=0}^{\infty}\frac{A^k}{\lambda^k}.$$
+Следовательно,
+$$\sigma(A)\subseteq\{\lambda:|\lambda|\le\|A\|\}.$$
+</div>
+
+<div class="def">
+Спектральный радиус:
+$$r(A)=\sup_{\lambda\in\sigma(A)}|\lambda|.$$
+Формула Гельфанда:
+$$r(A)=\lim_{n\to\infty}\|A^n\|^{1/n}\le\|A\|.$$
+</div>
+
+<div class="thm">
+Для $\lambda,\mu\in\rho(A)$:
+$$R_\mu-R_\lambda=(\mu-\lambda)R_\mu R_\lambda,$$
+операторы $R_\mu$ и $R_\lambda$ перестановочны, а
+$$\frac{d}{d\lambda}R_\lambda=R_\lambda^2$$
+при соглашении $R_\lambda=(A-\lambda I)^{-1}$.
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Вычтем две резольвенты.</strong><br>
+    <span class="why">Зачем:</span> используем общее тождество для разности обратных
+    операторов.
+    Для обратимых $S,T$ верно
+    $$S^{-1}-T^{-1}=S^{-1}(T-S)T^{-1}.$$
+    Берём $S=A-\mu I$, $T=A-\lambda I$. Тогда
+    $$R_\mu-R_\lambda
+    =R_\mu\bigl((A-\lambda I)-(A-\mu I)\bigr)R_\lambda
+    =(\mu-\lambda)R_\mu R_\lambda.$$
+  </li>
+  <li>
+    <strong>Шаг 2. Поменяем параметры местами.</strong><br>
+    <span class="why">Зачем:</span> это выявляет коммутативность резольвент.
+    Аналогично
+    $$R_\lambda-R_\mu=(\lambda-\mu)R_\lambda R_\mu.$$
+    Сравнение двух равенств даёт
+    $$R_\mu R_\lambda=R_\lambda R_\mu.$$
+  </li>
+  <li>
+    <strong>Шаг 3. Перейдём к производной.</strong><br>
+    <span class="why">Зачем:</span> резольвентное тождество сразу даёт разностное
+    отношение.
+    Полагая $\mu=\lambda+h$, получаем
+    $$\frac{R_{\lambda+h}-R_\lambda}{h}
+    =R_{\lambda+h}R_\lambda.$$
+    Резольвента непрерывна по операторной норме в регулярной точке, поэтому при
+    $h\to0$ правая часть стремится к $R_\lambda^2$.
+    <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+
+<div class="example">
+Если $A^m=I$, то при $\lambda^m\ne1$
+$$(A-\lambda I)^{-1}
+=\frac{A^{m-1}+\lambda A^{m-2}+\cdots+\lambda^{m-1}I}{1-\lambda^m}.$$
+</div>
+</div>
+
+<div class="ticket" id="b68">
+<h2>Билет 68. Компактные операторы. Определения и примеры.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §6, п. 1, стр. 237–241.</div>
+
+<div class="def">
+Линейный оператор $A:E\to F$ называется <em>компактным</em>, если он переводит
+каждое ограниченное множество в предкомпактное. Эквивалентно: из любой ограниченной
+последовательности $\{x_n\}$ можно выбрать подпоследовательность
+$\{x_{n_k}\}$, для которой $\{Ax_{n_k}\}$ сходится.
+</div>
+
+<div class="example">
+<strong>Конечный ранг.</strong> Если $\dim\operatorname{Im}A\lt\infty$, то $A$
+компактен. В частности, всякий линейный оператор в конечномерном пространстве
+компактен.
+</div>
+
+<div class="example">
+<strong>Диагональный оператор в $\ell_2$.</strong>
+$$Ax=(\alpha_1x_1,\alpha_2x_2,\dots)$$
+компактен тогда и только тогда, когда $\alpha_n\to0$. Он является пределом
+конечномерных усечений
+$$A_Nx=(\alpha_1x_1,\dots,\alpha_Nx_N,0,\dots).$$
+</div>
+
+<div class="example">
+<strong>Интегральный оператор.</strong> При непрерывном ядре $K$ оператор
+$$(Ax)(s)=\int_a^bK(s,t)x(t)\,dt$$
+компактен в $C[a,b]$: образы ограниченного множества равномерно ограничены и
+равностепенно непрерывны, поэтому применяется теорема Арцела.
+</div>
+
+<div class="remark">
+Тождественный оператор в бесконечномерном нормированном пространстве не компактен:
+единичный шар не предкомпактен.
+</div>
+</div>
+
+<div class="ticket" id="b69">
+<h2>Билет 69. Основные свойства компактных операторов.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §6, п. 2, стр. 241–244. По списку тем — без доказательства.</div>
+
+<div class="thm">
+Основные свойства:
+<ol>
+  <li>Компактный линейный оператор ограничен.</li>
+  <li>Линейная комбинация компактных операторов компактна.</li>
+  <li>Если $A$ компактен, а $B$ ограничен, то $AB$ и $BA$ компактны, когда
+  композиции определены.</li>
+  <li>Если пространство значений банахово, предел компактных операторов по
+  операторной норме компактен.</li>
+  <li>Оператор, сопряжённый к компактному, компактен.</li>
+  <li>Компактный оператор в бесконечномерном пространстве не имеет ограниченного
+  обратного оператора.</li>
+</ol>
+</div>
+
+<div class="remark">
+Таким образом, компактные операторы образуют замкнутое линейное подпространство в
+$L(E,F)$ и двусторонний идеал в алгебре $L(E)$.
+</div>
+</div>
+
+<div class="ticket" id="b70">
+<h2>Билет 70. Собственные значения компактного оператора.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §6, п. 3, теорема 4, стр. 244–245.</div>
+
+<div class="thm">
+Пусть $A$ — компактный оператор в банаховом пространстве. Для каждого $\delta>0$
+существует лишь конечное число линейно независимых собственных векторов, отвечающих
+собственным значениям $\lambda$ с $|\lambda|>\delta$.
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Предположим, что таких векторов бесконечно много.</strong><br>
+    <span class="why">Зачем:</span> будем строить ограниченную последовательность,
+    образ которой не имеет сходящейся подпоследовательности.
+    Пусть
+    $$Ax_n=\lambda_nx_n,\qquad |\lambda_n|>\delta,$$
+    а $x_1,x_2,\dots$ линейно независимы. Обозначим
+    $E_n=\operatorname{span}\{x_1,\dots,x_n\}$.
+  </li>
+  <li>
+    <strong>Шаг 2. Выберем разделённые единичные векторы.</strong><br>
+    <span class="why">Зачем:</span> лемма Рисса не позволит их образам сближаться.
+    Можно выбрать $y_n\in E_n$ так, что
+    $$\|y_n\|=1,\qquad
+    \operatorname{dist}(y_n,E_{n-1})>\frac12.$$
+  </li>
+  <li>
+    <strong>Шаг 3. Построим ограниченную последовательность прообразов.</strong><br>
+    <span class="why">Зачем:</span> компактность применима только к ограниченным
+    последовательностям.
+    Поскольку $|\lambda_n|>\delta$,
+    $$u_n=\frac{y_n}{\lambda_n}$$
+    образует ограниченную последовательность.
+  </li>
+  <li>
+    <strong>Шаг 4. Покажем разделённость образов.</strong><br>
+    <span class="why">Зачем:</span> это противоречит существованию сходящейся
+    подпоследовательности.
+    Запишем $y_n=\sum_{k=1}^n\alpha_kx_k$. Тогда
+    $$Au_n=y_n+z_n,\qquad z_n\in E_{n-1}.$$
+    При $p>q$ имеем $y_q,z_q,z_p\in E_{p-1}$, поэтому
+    $$\|Au_p-Au_q\|
+    =\|y_p-(y_q+z_q-z_p)\|>\frac12.$$
+  </li>
+  <li>
+    <strong>Шаг 5. Получим противоречие.</strong><br>
+    Последовательность $\{u_n\}$ ограничена, но $\{Au_n\}$ не содержит
+    фундаментальной, а значит и сходящейся подпоследовательности. Это невозможно для
+    компактного $A$. <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+
+<div class="thm">
+Следствия:
+<ul>
+  <li>каждое ненулевое собственное значение имеет конечную кратность;</li>
+  <li>вне любого круга $|\lambda|\le\delta$ собственных значений конечное число;</li>
+  <li>единственная возможная точка накопления ненулевых собственных значений — $0$.</li>
+</ul>
+</div>
+</div>
+
+<div class="ticket" id="b71">
+<h2>Билет 71. Компактные операторы в гильбертовом пространстве.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §6, п. 4, стр. 245–246.</div>
+
+<div class="thm">
+Для $A\in L(H)$ эквивалентны:
+<ol>
+  <li>$A$ компактен;</li>
+  <li>всякую слабо сходящуюся последовательность $x_n\rightharpoonup x$ оператор
+  переводит в сильно сходящуюся: $Ax_n\to Ax$.</li>
+</ol>
+</div>
+
+<div class="thm">
+Оператор $A$ компактен тогда и только тогда, когда компактен $A^*$.
+Кроме того,
+$$A^*A\quad\text{и}\quad AA^*$$
+— компактные самосопряжённые неотрицательные операторы, а
+$$\|A\|^2=\|A^*A\|.$$
+</div>
+
+<div class="remark">
+В гильбертовом пространстве ограниченные множества слабо предкомпактны. Поэтому
+компактный оператор можно понимать как оператор, превращающий слабую сходимость в
+сходимость по норме.
+</div>
+</div>
+
+<div class="ticket" id="b72">
+<h2>Билет 72. Инвариантные подпространства.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §5, стр. 234; §6, стр. 248–249.</div>
+
+<div class="def">
+Подпространство $M\subset H$ называется <em>инвариантным</em> относительно $A$, если
+$$A(M)\subseteq M.$$
+Ограничение $A|_M:M\to M$ тогда является оператором в $M$.
+</div>
+
+<div class="thm">
+Если $M$ инвариантно относительно $A$, то $M^\perp$ инвариантно относительно $A^*$.
+В частности, для самосопряжённого $A$ ортогональное дополнение к любому
+инвариантному подпространству также инвариантно.
+</div>
+
+<div class="example">
+<ul>
+  <li>$\ker A$ инвариантно относительно $A$.</li>
+  <li>Замыкание $\operatorname{Im}A$ инвариантно относительно $A$.</li>
+  <li>Собственное подпространство $\ker(A-\lambda I)$ инвариантно.</li>
+  <li>Если $p$ — многочлен, то $\ker p(A)$ и $\operatorname{Im}p(A)$ инвариантны.</li>
+</ul>
+</div>
+
+<div class="remark">
+Инвариантность позволяет применять оператор к ортогональным блокам отдельно.
+Именно так в доказательстве теоремы Гильберта–Шмидта после выбора собственных
+векторов оператор ограничивают на их ортогональное дополнение.
+</div>
+</div>
+
+<div class="ticket" id="b73">
+<h2>Билет 73. Самосопряжённые компактные операторы. Теорема Гильберта–Шмидта.</h2>
+<div class="source-mark">Колмогоров–Фомин, гл. IV, §6, п. 5, стр. 246–250.</div>
+
+<div class="thm">
+<strong>Теорема Гильберта–Шмидта.</strong>
+Пусть $A$ — компактный самосопряжённый оператор в гильбертовом пространстве $H$.
+Тогда существует конечная или счётная ортонормированная система собственных
+векторов $\{\varphi_n\}$ с ненулевыми собственными значениями $\lambda_n$ такая,
+что каждый $\xi\in H$ единственным образом представляется в виде
+$$\xi=\sum_n c_n\varphi_n+\xi_0,\qquad \xi_0\in\ker A,$$
+и
+$$A\xi=\sum_n\lambda_nc_n\varphi_n.$$
+Если система бесконечна, то $\lambda_n\to0$.
+</div>
+
+<div class="label">Вспомогательные утверждения</div>
+
+<div class="lemma">
+<strong>Лемма 1.</strong> Собственные значения самосопряжённого оператора вещественны,
+а собственные векторы, отвечающие различным собственным значениям, ортогональны.
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Докажем вещественность.</strong><br>
+    <span class="why">Зачем:</span> это позволяет упорядочивать собственные значения
+    по модулю и применять вариационные рассуждения.
+    Если $Ax=\lambda x$, $x\ne0$, то
+    $$\lambda\langle x,x\rangle
+    =\langle Ax,x\rangle
+    =\langle x,Ax\rangle
+    =\overline\lambda\langle x,x\rangle.$$
+    Значит, $\lambda=\overline\lambda$.
+  </li>
+  <li>
+    <strong>Шаг 2. Докажем ортогональность.</strong><br>
+    <span class="why">Зачем:</span> будущие собственные векторы должны образовать
+    ортонормированную систему.
+    Если $Ax=\lambda x$, $Ay=\mu y$ и $\lambda\ne\mu$, то
+    $$\lambda\langle x,y\rangle
+    =\langle Ax,y\rangle
+    =\langle x,Ay\rangle
+    =\mu\langle x,y\rangle.$$
+    Поэтому $\langle x,y\rangle=0$. <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+
+<div class="lemma">
+<strong>Лемма 2.</strong> Если $\xi_n\rightharpoonup\xi$ и $A$ компактен, то
+$$\langle A\xi_n,\xi_n\rangle\to\langle A\xi,\xi\rangle.$$
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Используем компактность.</strong><br>
+    <span class="why">Зачем:</span> она усиливает слабую сходимость до сильной после
+    применения $A$.
+    Имеем $A\xi_n\to A\xi$ по норме, а слабо сходящаяся последовательность
+    $\{\xi_n\}$ ограничена.
+  </li>
+  <li>
+    <strong>Шаг 2. Разобьём разность.</strong><br>
+    <span class="why">Зачем:</span> одно слагаемое контролируется сильной, другое —
+    слабой сходимостью.
+    \begin{align*}
+    |\langle A\xi_n,\xi_n\rangle-\langle A\xi,\xi\rangle|
+    &amp;\le|\langle A\xi_n-A\xi,\xi_n\rangle|\\
+    &amp;\quad+|\langle A\xi,\xi_n-\xi\rangle|\to0.
+    \end{align*}
+    <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+
+<div class="lemma">
+<strong>Лемма 3.</strong> Если функция
+$|\langle A\xi,\xi\rangle|$ достигает максимума на единичной сфере в точке
+$\xi_0$, то $\xi_0$ — собственный вектор $A$.
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Возьмём ортогональное направление.</strong><br>
+    <span class="why">Зачем:</span> проверяем необходимое условие экстремума на сфере.
+    Пусть $\eta\perp\xi_0$ и
+    $$\xi(a)=\frac{\xi_0+a\eta}
+    {\sqrt{1+|a|^2\|\eta\|^2}}.$$
+    Тогда $\|\xi(a)\|=1$.
+  </li>
+  <li>
+    <strong>Шаг 2. Исследуем линейную часть приращения.</strong><br>
+    <span class="why">Зачем:</span> ненулевой смешанный член позволил бы увеличить
+    модуль квадратичной формы.
+    Выбирая фазу малого $a$, получаем
+    $$\langle A\xi(a),\xi(a)\rangle
+    =\langle A\xi_0,\xi_0\rangle
+    +2\operatorname{Re}\!\left(\overline a
+      \langle A\xi_0,\eta\rangle\right)+O(|a|^2).$$
+    Максимальность требует $\langle A\xi_0,\eta\rangle=0$ для каждого
+    $\eta\perp\xi_0$.
+  </li>
+  <li>
+    <strong>Шаг 3. Сделаем спектральный вывод.</strong><br>
+    <span class="why">Зачем:</span> ортогональность всем направлениям означает
+    коллинеарность.
+    Вектор $A\xi_0$ ортогонален $\xi_0^\perp$, значит
+    $A\xi_0=\lambda\xi_0$. <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+
+<div class="proof">
+<ol class="proof-steps">
+  <li>
+    <strong>Шаг 1. Найдём первый собственный вектор.</strong><br>
+    <span class="why">Зачем:</span> запускаем последовательное диагонализирование.
+    Если $A=0$, утверждение сразу выполнено: всё пространство является ядром.
+    Далее считаем $A\ne0$.
+    Положим
+    $$S=\sup_{\|\xi\|\le1}|\langle A\xi,\xi\rangle|.$$
+    Тогда $S>0$: иначе из поляризационного тождества следовало бы $A=0$.
+    Возьмём максимизирующую последовательность на единичной сфере. Единичный шар
+    слабо компактен, поэтому после выбора подпоследовательности
+    $\xi_n\rightharpoonup\varphi_1$. По лемме 2 максимум достигается в
+    $\varphi_1$, причём $\|\varphi_1\|=1$. По лемме 3
+    $$A\varphi_1=\lambda_1\varphi_1.$$
+  </li>
+  <li>
+    <strong>Шаг 2. Перейдём к ортогональному дополнению.</strong><br>
+    <span class="why">Зачем:</span> ищем следующий собственный вектор, не повторяя
+    уже найденное направление.
+    Пространство $M_1^\perp$, где $M_1=\operatorname{span}\{\varphi_1\}$,
+    инвариантно относительно самосопряжённого $A$. Ограничение $A|_{M_1^\perp}$
+    остаётся компактным и самосопряжённым.
+  </li>
+  <li>
+    <strong>Шаг 3. Повторим построение.</strong><br>
+    <span class="why">Зачем:</span> получаем ортонормированную систему всех ненулевых
+    спектральных направлений.
+    Индуктивно строим
+    $$A\varphi_n=\lambda_n\varphi_n,\qquad
+    \varphi_n\perp\varphi_k\quad(n\ne k),$$
+    выбирая на каждом шаге максимум модуля квадратичной формы на
+    $M_{n-1}^\perp$.
+  </li>
+  <li>
+    <strong>Шаг 4. Разберём конечный и бесконечный случаи.</strong><br>
+    <span class="why">Зачем:</span> нужно описать остаток пространства после выбора
+    собственных векторов.
+    Если на некотором $M_N^\perp$ максимум равен нулю, лемма 3 и поляризация дают
+    $A|_{M_N^\perp}=0$, то есть $M_N^\perp\subseteq\ker A$.
+    Если процесс бесконечен, ортонормированная последовательность
+    $\varphi_n\rightharpoonup0$. Компактность даёт
+    $$A\varphi_n=\lambda_n\varphi_n\to0,$$
+    следовательно, $|\lambda_n|=\|A\varphi_n\|\to0$.
+  </li>
+  <li>
+    <strong>Шаг 5. Покажем, что оставшееся пространство есть ядро.</strong><br>
+    <span class="why">Зачем:</span> завершаем полноту спектрального разложения.
+    Пусть
+    $$M=\overline{\operatorname{span}}\{\varphi_n\}.$$
+    Пространство $M^\perp$ инвариантно. Если на нём $A$ был бы ненулевым, то
+    предыдущий аргумент дал бы ещё один собственный вектор, ортогональный всем
+    $\varphi_n$, что противоречит построению. Значит,
+    $$A|_{M^\perp}=0,\qquad M^\perp=\ker A.$$
+  </li>
+  <li>
+    <strong>Шаг 6. Запишем действие оператора.</strong><br>
+    <span class="why">Зачем:</span> получаем заявленную диагональную форму.
+    Для
+    $$\xi=\sum_nc_n\varphi_n+\xi_0,\qquad \xi_0\in\ker A,$$
+    непрерывность $A$ даёт
+    $$A\xi=\sum_n\lambda_nc_n\varphi_n.$$
+    Единственность следует из ортогонального разложения
+    $H=M\oplus\ker A$. <span class="qed">∎</span>
+  </li>
+</ol>
+</div>
+
+<div class="remark">
+Дополняя $\{\varphi_n\}$ ортонормированным базисом ядра, получаем ортонормированный
+базис $H$, в котором компактный самосопряжённый оператор имеет диагональный вид.
+</div>
+</div>
+
+<div class="nav">
+  <a href="index.html">← оглавление</a>
+  <a href="part6-operators.html">← Часть VI</a>
+</div>
+
+</body>
+</html>

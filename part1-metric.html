@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Часть I. Метрические пространства (1–14)</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root { --bg:#fafaf8; --fg:#1a1a1a; --muted:#666; --accent:#2563eb;
+          --border:#d1d5db; --card:#ffffff; --proof-bg:#f3f4f6; }
+  * { box-sizing: border-box; }
+  body { font-family:'Charter','Georgia','Times New Roman',serif; line-height:1.7;
+         max-width:880px; margin:0 auto; padding:32px 24px 100px;
+         background:var(--bg); color:var(--fg); font-size:17px; }
+  h1 { font-size:1.9em; border-bottom:2px solid var(--fg); padding-bottom:8px; }
+  .nav { margin: 12px 0 28px; font-size: 0.95em; }
+  .nav a { color: var(--accent); text-decoration: none; margin-right: 14px; }
+  .nav a:hover { text-decoration: underline; }
+  .ticket { background: var(--card); border:1px solid var(--border);
+            border-radius:8px; padding:22px 26px; margin: 28px 0; }
+  .ticket h2 { margin-top: 0; font-size: 1.25em; color: var(--accent); }
+  .label { display:inline-block; font-weight:bold; color:#374151;
+           text-transform:uppercase; font-size:0.78em; letter-spacing:0.06em;
+           margin-top:14px; margin-bottom:2px; }
+  .def, .thm, .lemma, .example, .remark {
+    border-left: 3px solid var(--border); padding-left: 14px; margin: 10px 0;
+  }
+  .def { border-color:#10b981; }
+  .thm { border-color:#dc2626; }
+  .lemma { border-color:#7c3aed; }
+  .example { border-color:#0891b2; }
+  .remark { border-color:#9ca3af; font-style: italic; color:#444; }
+  .proof { background: var(--proof-bg); padding: 12px 16px;
+           margin: 8px 0; border-radius: 6px; font-size:0.97em; }
+  .proof::before { content: "Доказательство. "; font-weight: bold; }
+  .qed { float: right; }
+  ul, ol { padding-left: 22px; }
+  li { margin: 4px 0; }
+  .toc { background:#eef2ff; padding:14px 22px; border-radius:8px;
+         font-size:0.95em; }
+  .toc ol { margin: 6px 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Часть I. Метрические пространства</h1>
+<div class="nav">
+  <a href="index.html">← оглавление</a>
+  <a href="part2-linear.html">Часть II →</a>
+</div>
+
+<div class="toc">
+<strong>Содержание:</strong>
+<ol>
+  <li><a href="#b1">Цепь. Лемма Цорна. Аксиома выбора.</a></li>
+  <li><a href="#b2">Метрическое пространство.</a></li>
+  <li><a href="#b3">Непрерывные отображения. Изометрия.</a></li>
+  <li><a href="#b4">Сходимость. Открытые и замкнутые множества.</a></li>
+  <li><a href="#b5">Предельные точки. Замыкание.</a></li>
+  <li><a href="#b6">Плотные множества. Сепарабельность. Хаусдорфовость.</a></li>
+  <li><a href="#b7">Расстояние от точки до множества.</a></li>
+  <li><a href="#b8">Открытые и замкнутые множества (свойства).</a></li>
+  <li><a href="#b9">Полные метрические пространства.</a></li>
+  <li><a href="#b10">Теорема о вложенных шарах.</a></li>
+  <li><a href="#b11">Теорема Бэра.</a></li>
+  <li><a href="#b12">Пополнение пространства.</a></li>
+  <li><a href="#b13">Принцип сжимающих отображений.</a></li>
+  <li><a href="#b14">Компактность. Предкомпактные множества.</a></li>
+</ol>
+</div>
+
+<!-- ============================ БИЛЕТ 1 ============================ -->
+<div class="ticket" id="b1">
+<h2>Билет 1. Цепь. Лемма Цорна. Аксиома выбора.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 1, 09.02.2026 — теоретико-множественные основания</div>
+
+<div class="label">Частичный порядок</div>
+<div class="def">
+Отношение $\le$ на множестве $M$ называется <em>частичным порядком</em>, если оно
+рефлексивно ($a \le a$), антисимметрично ($a\le b,\; b\le a \Rightarrow a=b$) и
+транзитивно ($a\le b,\; b\le c \Rightarrow a\le c$). Множество с заданным частичным порядком называется
+<em>частично упорядоченным</em> (poset).
+</div>
+
+<div class="label">Цепь</div>
+<div class="def">
+Подмножество $C \subseteq M$ частично упорядоченного множества называется <em>цепью</em>
+(или линейно упорядоченным), если любые два его элемента сравнимы: $\forall a,b\in C$
+выполнено $a\le b$ или $b\le a$.
+</div>
+
+<div class="example">
+<strong>Пример.</strong> В $\mathbb{N}$ с отношением «делит» цепью является, например, $\{1,2,4,8,16,\dots\}$.
+Множество же $\{2,3\}$ цепью не является.
+</div>
+
+<div class="label">Аксиома выбора</div>
+<div class="def">
+Для любого семейства $\{A_\alpha\}_{\alpha\in I}$ непустых попарно непересекающихся
+множеств существует множество $C$, содержащее ровно по одному элементу из каждого $A_\alpha$.
+Эквивалентная формулировка: существует <em>функция выбора</em> $f:\{A_\alpha\}\to\bigcup A_\alpha$
+такая, что $f(A_\alpha)\in A_\alpha$.
+</div>
+
+<div class="label">Лемма Цорна</div>
+<div class="thm">
+Если в частично упорядоченном множестве $M$ всякая цепь имеет верхнюю грань
+(т.&nbsp;е. для любой цепи $C\subseteq M$ найдётся $m\in M$ такой, что $c\le m$ для всех $c\in C$),
+то в $M$ существует <em>максимальный элемент</em> $m^*$, т.&nbsp;е. такой, что из $m^*\le x$ следует $x=m^*$.
+</div>
+
+<div class="remark">
+Аксиома выбора, лемма Цорна и теорема Цермело (о вполне упорядочении) эквивалентны в рамках ZF.
+В функциональном анализе лемма Цорна — основной инструмент: с её помощью доказывается
+существование базиса Гамеля, теорема Хана–Банаха, существование максимальных идеалов и т.&nbsp;д.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 2 ============================ -->
+<div class="ticket" id="b2">
+<h2>Билет 2. Метрическое пространство. Определение и примеры.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 1, 09.02.2026 — метрические пространства</div>
+
+<div class="def">
+<em>Метрическим пространством</em> называется пара $(X,\rho)$, где $X$ — непустое множество,
+а $\rho:X\times X\to\mathbb{R}$ — функция (метрика, расстояние), удовлетворяющая трём аксиомам:
+<ol>
+  <li>(неотрицательность и невырожденность) $\rho(x,y)\ge 0$, причём $\rho(x,y)=0 \iff x=y$;</li>
+  <li>(симметрия) $\rho(x,y)=\rho(y,x)$;</li>
+  <li>(неравенство треугольника) $\rho(x,z)\le \rho(x,y)+\rho(y,z)$.</li>
+</ol>
+</div>
+
+<div class="label">Основные примеры</div>
+
+<div class="example">
+<strong>1) Дискретная метрика.</strong> На любом множестве $X$ положим
+$\rho(x,y)=0$ при $x=y$ и $\rho(x,y)=1$ при $x\ne y$.
+</div>
+
+<div class="example">
+<strong>2) $\mathbb{R}^n$.</strong> Для $x=(x_1,\dots,x_n),\;y=(y_1,\dots,y_n)$:
+$$ \rho_2(x,y)=\sqrt{\sum_{k=1}^n (x_k-y_k)^2}\quad\text{(евклидова)}; $$
+$$ \rho_1(x,y)=\sum_{k=1}^n |x_k-y_k|;\qquad \rho_\infty(x,y)=\max_k |x_k-y_k|. $$
+</div>
+
+<div class="example">
+<strong>3) Пространства последовательностей.</strong>
+<ul>
+<li>$\ell_p$ ($1\le p\lt \infty$): $x=(x_n)$ с $\sum|x_n|^p\lt \infty$, метрика
+$\rho(x,y)=\bigl(\sum|x_n-y_n|^p\bigr)^{1/p}$.</li>
+<li>$m=\ell_\infty$: ограниченные последовательности, $\rho(x,y)=\sup_n|x_n-y_n|$.</li>
+<li>$c$ — сходящиеся, $c_0$ — стремящиеся к нулю, $c_{00}$ — финитные; метрика — $\sup$.</li>
+<li>$s$ — все последовательности с метрикой $\rho(x,y)=\sum_{n=1}^\infty \dfrac{1}{2^n}\dfrac{|x_n-y_n|}{1+|x_n-y_n|}$.</li>
+</ul>
+</div>
+
+<div class="example">
+<strong>4) Пространства функций.</strong>
+<ul>
+<li>$C[a,b]$ — непрерывные на $[a,b]$ функции, $\rho(f,g)=\max_{x\in[a,b]}|f(x)-g(x)|$.</li>
+<li>$C^n[a,b]$ — $n$ раз непрерывно дифференцируемые, $\rho(f,g)=\sum_{k=0}^n \max|f^{(k)}-g^{(k)}|$.</li>
+<li>$L_2[a,b]$ — измеримые с интегрируемым квадратом, $\rho(f,g)=\bigl(\int_a^b|f-g|^2\,dx\bigr)^{1/2}$.</li>
+<li>$B(X)$ — ограниченные функции на $X$ со $\sup$-метрикой.</li>
+</ul>
+</div>
+
+<div class="remark">
+Неравенство треугольника в $\ell_p$ и $L_p$ называется <em>неравенством Минковского</em>;
+оно следует из неравенства Гёльдера и нетривиально для $p\ne 1,2$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 3 ============================ -->
+<div class="ticket" id="b3">
+<h2>Билет 3. Непрерывные отображения. Изометрия.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 2, 16.02.2026 — изометрия и непрерывные отображения</div>
+
+<div class="def">
+Пусть $(X,\rho_X),(Y,\rho_Y)$ — метрические пространства, $f:X\to Y$. Отображение $f$
+<em>непрерывно в точке</em> $x_0\in X$, если
+$$ \forall \varepsilon>0\;\exists\delta>0:\quad \rho_X(x,x_0)\lt \delta \Rightarrow \rho_Y(f(x),f(x_0))\lt \varepsilon.$$
+$f$ <em>непрерывно</em> на $X$, если непрерывно в каждой точке.
+</div>
+
+<div class="thm">
+<strong>Критерий непрерывности (по Гейне).</strong> $f$ непрерывно в $x_0$ $\iff$
+для любой последовательности $x_n\to x_0$ имеет место $f(x_n)\to f(x_0)$.
+</div>
+
+<div class="thm">
+<strong>Топологический критерий.</strong> $f:X\to Y$ непрерывно $\iff$ прообраз
+любого открытого множества открыт $\iff$ прообраз любого замкнутого замкнут.
+</div>
+
+<div class="def">
+$f:X\to Y$ называется <em>изометрией</em> (изометрическим вложением), если
+$\rho_Y(f(x),f(y))=\rho_X(x,y)$ для всех $x,y\in X$. Если $f$ ещё и сюръективно,
+говорят об <em>изометрии пространств</em>; в этом случае $X$ и $Y$
+<em>изометричны</em>.
+</div>
+
+<div class="remark">
+Изометрия автоматически инъективна (из $\rho(f(x),f(y))=0$ следует $\rho(x,y)=0$, т.&nbsp;е. $x=y$)
+и непрерывна. Существуют гомеоморфные, но не изометричные пространства: например,
+$\mathbb{R}$ и интервал $(0,1)$ гомеоморфны, но не изометричны.
+</div>
+
+<div class="example">
+$f:C[0,1]\to C[0,1]$, $f(\varphi)(x)=\varphi(x)+1$ — изометрия.
+Сдвиг в $\ell_2$: $(x_1,x_2,\dots)\mapsto (0,x_1,x_2,\dots)$ — изометрическое вложение,
+не являющееся сюръекцией.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 4 ============================ -->
+<div class="ticket" id="b4">
+<h2>Билет 4. Сходимость. Открытые и замкнутые множества.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 1, 09.02.2026 — сходимость, открытые/замкнутые</div>
+
+<div class="def">
+Последовательность $(x_n)\subset X$ <em>сходится</em> к $x\in X$, если $\rho(x_n,x)\to 0$
+при $n\to\infty$. Пишут $x_n\to x$. Предел, если существует, единственен.
+</div>
+
+<div class="def">
+<em>Открытый шар</em> $B(x_0,r)=\{x\in X:\rho(x,x_0)\lt r\}$, <em>замкнутый шар</em>
+$\overline{B}(x_0,r)=\{x: \rho(x,x_0)\le r\}$.
+</div>
+
+<div class="def">
+Множество $U\subseteq X$ <em>открыто</em>, если для любой точки $x\in U$ найдётся $r>0$
+такое, что $B(x,r)\subseteq U$. Множество $F\subseteq X$ <em>замкнуто</em>, если $X\setminus F$
+открыто.
+</div>
+
+<div class="thm">
+<strong>Эквивалентные характеризации замкнутости.</strong> $F\subseteq X$ замкнуто $\iff$
+для любой последовательности $(x_n)\subset F$, $x_n\to x$, имеем $x\in F$.
+</div>
+
+<div class="example">
+В $\mathbb{R}$ интервалы $(a,b)$ открыты, отрезки $[a,b]$ замкнуты, полуинтервалы — ни то, ни другое.
+В дискретном пространстве любое множество одновременно открыто и замкнуто.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 5 ============================ -->
+<div class="ticket" id="b5">
+<h2>Билет 5. Предельные точки. Замыкание.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 1, 09.02.2026 — замыкание, предельные точки</div>
+
+<div class="def">
+Точка $x\in X$ называется <em>предельной</em> для множества $A\subseteq X$, если в любой
+её окрестности (любом открытом шаре с центром в $x$) содержится хотя бы одна точка
+из $A$, отличная от $x$. Эквивалентно: существует последовательность $(a_n)\subset A$,
+$a_n\ne x$, $a_n\to x$.
+</div>
+
+<div class="def">
+Точка $x\in A$ называется <em>изолированной</em>, если существует $r>0$ такое, что
+$B(x,r)\cap A=\{x\}$.
+</div>
+
+<div class="def">
+<em>Замыкание</em> $\overline{A}$ множества $A$ — это объединение $A$ и всех его предельных точек.
+Эквивалентные описания:
+<ul>
+<li>$\overline{A}=\{x: \forall r>0,\; B(x,r)\cap A\ne\varnothing\}$;</li>
+<li>$\overline{A}=\{x: \exists (a_n)\subset A,\; a_n\to x\}$;</li>
+<li>$\overline{A}$ — пересечение всех замкнутых множеств, содержащих $A$ (наименьшее такое).</li>
+</ul>
+</div>
+
+<div class="thm">
+<strong>Свойства замыкания.</strong>
+$\overline{\overline{A}}=\overline{A}$, $\overline{A\cup B}=\overline{A}\cup\overline{B}$,
+$\overline{A\cap B}\subseteq \overline{A}\cap\overline{B}$ (равенство, вообще говоря, не выполнено).
+$A$ замкнуто $\iff$ $A=\overline{A}$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 6 ============================ -->
+<div class="ticket" id="b6">
+<h2>Билет 6. Плотные множества. Сепарабельность. Хаусдорфовость.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекции 1–2, 09–16.02.2026 — сепарабельность, хаусдорфовость</div>
+
+<div class="def">
+$A$ <em>плотно</em> в $X$, если $\overline{A}=X$. Эквивалентно: $\forall x\in X,\;\forall r>0,\;B(x,r)\cap A\ne\varnothing$.
+</div>
+
+<div class="def">
+Множество $A$ называется <em>нигде не плотным</em>, если $\overline{A}$ не содержит ни одного открытого шара
+(т.&nbsp;е. дополнение к $\overline{A}$ всюду плотно).
+</div>
+
+<div class="def">
+Метрическое пространство $X$ называется <em>сепарабельным</em>, если оно содержит счётное всюду плотное
+подмножество.
+</div>
+
+<div class="example">
+<strong>Сепарабельные:</strong> $\mathbb{R}^n$ (плотно $\mathbb{Q}^n$), $C[a,b]$ (плотны
+многочлены с рациональными коэффициентами — по теореме Вейерштрасса), $\ell_p$ ($1\le p\lt \infty$)
+— плотны финитные рациональные последовательности.
+<br>
+<strong>Несепарабельное:</strong> $\ell_\infty=m$. В нём $\{0,1\}^{\mathbb{N}}$ — несчётное
+семейство попарно удалённых на $1$ точек, и никакое счётное множество не может быть
+плотным.
+</div>
+
+<div class="def">
+Топологическое (в частности, метрическое) пространство $X$ называется <em>хаусдорфовым</em> (аксиома $T_2$),
+если для любых двух различных точек $x\ne y$ найдутся непересекающиеся открытые
+множества $U\ni x$, $V\ni y$.
+</div>
+
+<div class="remark">
+Всякое метрическое пространство хаусдорфово: при $x\ne y$ положим $r=\rho(x,y)/3$ и возьмём
+$U=B(x,r),\;V=B(y,r)$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 7 ============================ -->
+<div class="ticket" id="b7">
+<h2>Билет 7. Расстояние от точки до множества.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 1, 09.02.2026 — расстояние до множества</div>
+
+<div class="def">
+Для $x\in X$ и $A\subseteq X$, $A\ne\varnothing$, положим
+$$\rho(x,A):=\inf_{a\in A}\rho(x,a).$$
+</div>
+
+<div class="thm">
+<strong>Свойства.</strong>
+<ol>
+<li>$\rho(x,A)\ge 0$, и $\rho(x,A)=0 \iff x\in\overline{A}$.</li>
+<li>(Липшицевость) $|\rho(x,A)-\rho(y,A)|\le \rho(x,y)$ для всех $x,y\in X$.
+В частности, $x\mapsto\rho(x,A)$ непрерывна на $X$.</li>
+</ol>
+</div>
+
+<div class="proof">
+<strong>1)</strong> Если $x\in\overline{A}$, то существует $a_n\in A$, $a_n\to x$, т.&nbsp;е. $\rho(x,a_n)\to 0$,
+значит, инфимум равен нулю. Обратно, если $\rho(x,A)=0$, то для всякого $n$ найдётся $a_n\in A$ с
+$\rho(x,a_n)\lt 1/n$, т.&nbsp;е. $a_n\to x$, поэтому $x\in\overline{A}$.
+
+<strong>2)</strong> Для любого $a\in A$ по неравенству треугольника
+$\rho(x,a)\le \rho(x,y)+\rho(y,a)$. Беря инфимум по $a\in A$ в правой части:
+$\rho(x,A)\le \rho(x,y)+\rho(y,A)$. Симметрично получим $\rho(y,A)\le\rho(x,y)+\rho(x,A)$,
+откуда $|\rho(x,A)-\rho(y,A)|\le\rho(x,y)$. <span class="qed">∎</span>
+</div>
+
+<div class="remark">
+Функция $\rho(\cdot,A)$ — это «функция-«колпак»», часто используемая для построения
+разделения: если $A,B$ — два непересекающихся замкнутых множества, то
+$f(x)=\dfrac{\rho(x,A)}{\rho(x,A)+\rho(x,B)}$ непрерывна, $f|_A=0$, $f|_B=1$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 8 ============================ -->
+<div class="ticket" id="b8">
+<h2>Билет 8. Открытые и замкнутые множества (свойства).</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 1, 09.02.2026 — топология открытых/замкнутых</div>
+
+<div class="thm">
+<strong>Свойства открытых множеств:</strong>
+<ol>
+<li>$\varnothing$ и $X$ открыты.</li>
+<li>Объединение любого семейства открытых множеств открыто.</li>
+<li>Пересечение конечного числа открытых множеств открыто.</li>
+</ol>
+</div>
+
+<div class="proof">
+1) Очевидно. 2) Если $x\in\bigcup_\alpha U_\alpha$, то $x\in U_{\alpha_0}$ для некоторого $\alpha_0$,
+а значит $B(x,r)\subset U_{\alpha_0}\subset \bigcup U_\alpha$.
+3) Для $x\in U_1\cap\dots\cap U_n$ существуют $r_1,\dots,r_n>0$ с $B(x,r_i)\subset U_i$.
+Возьмём $r=\min r_i>0$, тогда $B(x,r)\subset \bigcap U_i$. <span class="qed">∎</span>
+</div>
+
+<div class="thm">
+<strong>Свойства замкнутых множеств</strong> (двойственны, по правилам де Моргана):
+<ol>
+<li>$\varnothing$ и $X$ замкнуты.</li>
+<li>Пересечение любого семейства замкнутых множеств замкнуто.</li>
+<li>Объединение конечного числа замкнутых множеств замкнуто.</li>
+</ol>
+</div>
+
+<div class="remark">
+Бесконечное пересечение открытых может быть не открыто: $\bigcap_{n\ge1}(-1/n,\,1/n)=\{0\}$ в $\mathbb{R}$.
+Бесконечное объединение замкнутых может быть не замкнуто: $\bigcup_{n\ge 2}[1/n,\,1]=(0,1]$.
+</div>
+
+<div class="thm">
+<strong>Описание открытого множества в $\mathbb{R}$:</strong> любое непустое открытое
+множество в $\mathbb{R}$ есть не более чем счётное объединение попарно непересекающихся
+интервалов.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 9 ============================ -->
+<div class="ticket" id="b9">
+<h2>Билет 9. Полные метрические пространства. Полнота $C[a,b]$, $\ell_2$.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 2, 10.02.2026 — полнота C[a,b], ell_p</div>
+
+<div class="def">
+Последовательность $(x_n)\subset X$ называется <em>фундаментальной</em> (Коши), если
+$$\forall\varepsilon>0\;\exists N: \forall n,m\ge N\quad \rho(x_n,x_m)\lt \varepsilon.$$
+Пространство $X$ <em>полно</em>, если всякая фундаментальная последовательность сходится в $X$.
+</div>
+
+<div class="remark">
+Всякая сходящаяся последовательность фундаментальна; обратное верно только в полных пространствах.
+$\mathbb{Q}$ с обычной метрикой — пример неполного.
+</div>
+
+<div class="example">
+<strong>Полные:</strong> $\mathbb{R}^n$, $C[a,b]$, $\ell_p$ ($1\le p\le\infty$), $L_p[a,b]$, $m$, $c$, $c_0$.<br>
+<strong>Неполные:</strong> $\mathbb{Q}$, $c_{00}$ (финитные с $\sup$-нормой), $C[a,b]$ с метрикой $L_1$.
+</div>
+
+<div class="thm">
+<strong>Полнота $C[a,b]$ (с метрикой $\rho(f,g)=\max|f-g|$).</strong>
+</div>
+
+<div class="proof">
+Пусть $(f_n)\subset C[a,b]$ — фундаментальная: $\forall\varepsilon\,\exists N\,\forall n,m\ge N$:
+$\max_{x}|f_n(x)-f_m(x)|\lt \varepsilon$. Тогда для любого $x\in[a,b]$
+последовательность $(f_n(x))$ фундаментальна в $\mathbb{R}$, значит,
+имеет предел; положим $f(x):=\lim f_n(x)$.
+
+Покажем, что $f_n\rightrightarrows f$ (равномерно): фиксируем $\varepsilon>0$, найдём
+$N$ как выше, тогда при $n,m\ge N$ и любом $x$: $|f_n(x)-f_m(x)|\lt \varepsilon$.
+Переходя к пределу при $m\to\infty$: $|f_n(x)-f(x)|\le \varepsilon$ для всех $x$ и $n\ge N$.
+Значит, $\max_x|f_n-f|\le\varepsilon$, т.&nbsp;е. $f_n\to f$ в $C[a,b]$.
+
+Наконец, равномерный предел непрерывных функций непрерывен, поэтому $f\in C[a,b]$.
+<span class="qed">∎</span>
+</div>
+
+<div class="thm">
+<strong>Полнота $\ell_2$.</strong>
+</div>
+
+<div class="proof">
+Пусть $x^{(n)}=(x_1^{(n)},x_2^{(n)},\dots)$ — фундаментальная в $\ell_2$.
+По определению, $\sum_k |x_k^{(n)}-x_k^{(m)}|^2 \to 0$ при $n,m\to\infty$. Отсюда
+для каждого фиксированного $k$: $|x_k^{(n)}-x_k^{(m)}|\to 0$, т.&nbsp;е. $(x_k^{(n)})_n$
+— фундаментальная в $\mathbb{R}$; положим $x_k:=\lim_n x_k^{(n)}$.
+
+Покажем $x=(x_k)\in\ell_2$ и $x^{(n)}\to x$ в $\ell_2$. Из фундаментальности:
+$\forall\varepsilon\,\exists N\,\forall n,m\ge N\,\forall K$:
+$\sum_{k=1}^K |x_k^{(n)}-x_k^{(m)}|^2 \le \varepsilon^2$.
+Перейдём к пределу при $m\to\infty$ в этой конечной сумме:
+$\sum_{k=1}^K |x_k^{(n)}-x_k|^2 \le \varepsilon^2$ для всех $K$ и $n\ge N$.
+Устремляя $K\to\infty$: $\sum_k|x_k^{(n)}-x_k|^2\le\varepsilon^2$. Это означает, во-первых,
+что $x^{(n)}-x\in\ell_2$, а значит $x=x^{(n)}-(x^{(n)}-x)\in\ell_2$; во-вторых,
+что $\|x^{(n)}-x\|_{\ell_2}\le\varepsilon$, т.&nbsp;е. $x^{(n)}\to x$. <span class="qed">∎</span>
+</div>
+
+<div class="remark">
+Аналогичное доказательство годится для $\ell_p$ ($1\le p\lt \infty$): используется
+неравенство Минковского и переход к пределу под конечной суммой.
+</div>
+
+<div class="example">
+<strong>Пример из конспекта: $C[0,1]$ с $L_2$-метрикой неполно.</strong>
+Рассмотрим $C[-1,1]$ со скалярным произведением $\langle f,g\rangle=\int_{-1}^1 fg\,dx$
+и порождённой метрикой $\rho_2(f,g)=\bigl(\int_{-1}^1|f-g|^2dx\bigr)^{1/2}$.
+Возьмём ступенчатую последовательность
+$$\varphi_n(x)=\begin{cases}-1,& x\le -1/n,\\ nx,& |x|\lt 1/n,\\ 1,& x\ge 1/n.\end{cases}$$
+Тогда $\varphi_n\in C[-1,1]$, и $\rho_2(\varphi_n,\varphi_m)\to 0$ — фундаментальная.
+Однако в $L_2$-смысле $\varphi_n\to \mathrm{sgn}(x)$, а $\mathrm{sgn}\notin C[-1,1]$.
+Значит, $(C[-1,1],\rho_2)$ <em>не полно</em>; его пополнение — это $L_2[-1,1]$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 10 ============================ -->
+<div class="ticket" id="b10">
+<h2>Билет 10. Теорема о вложенных шарах (формулировка).</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 2, 10.02.2026 — теорема о вложенных шарах</div>
+
+<div class="thm">
+<strong>Теорема (о вложенных шарах).</strong> Метрическое пространство $X$ полно тогда и только тогда,
+когда для всякой последовательности вложенных замкнутых шаров
+$$\overline{B}(x_1,r_1)\supseteq \overline{B}(x_2,r_2)\supseteq\overline{B}(x_3,r_3)\supseteq\dots,\qquad r_n\to 0,$$
+их пересечение $\bigcap_{n\ge 1}\overline{B}(x_n,r_n)$ непусто (и состоит ровно из одной точки).
+</div>
+
+<div class="remark">
+Идея доказательства. <em>$\Rightarrow$:</em> центры $x_n$ образуют фундаментальную последовательность
+(при $m\ge n$: $\rho(x_n,x_m)\le r_n$, $r_n\to 0$), поэтому $x_n\to x^*$.
+Точка $x^*$ лежит в каждом шаре ($\overline{B}(x_n,r_n)$ замкнут, $x_m\in\overline{B}(x_n,r_n)$ для $m\ge n$).
+<em>$\Leftarrow$:</em> по фундаментальной последовательности $(z_k)$ строят вложенные замкнутые шары
+радиуса $r_k\to 0$, общая точка которых и является пределом $z_k$.
+</div>
+
+<div class="remark">
+Условие $r_n\to 0$ существенно: без него теорема неверна. Пример: в полном пространстве
+$\mathbb{N}$ с метрикой $\rho(n,m)=1+1/\min(n,m)$ при $n\ne m$ можно построить вложенные
+замкнутые шары с пустым пересечением.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 11 ============================ -->
+<div class="ticket" id="b11">
+<h2>Билет 11. Теорема Бэра (с доказательством).</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 1, 09.02.2026 — теорема Бэра и категории</div>
+
+<div class="def">
+<em>Категории множества по Бэру.</em>
+<ul>
+<li><strong>1-я категория</strong> — множество, представимое в виде счётного объединения
+нигде не плотных множеств.</li>
+<li><strong>2-я категория</strong> — всё остальное (т.&nbsp;е. не 1-й категории).</li>
+</ul>
+</div>
+
+<div class="thm">
+<strong>Теорема Бэра.</strong> Пусть $(X,\rho)$ — полное метрическое непустое пространство.
+Тогда $X$ — пространство <em>второй категории</em> Бэра.
+
+Эквивалентная формулировка: в полном метрическом пространстве пересечение счётного семейства
+всюду плотных открытых множеств всюду плотно.
+</div>
+
+<div class="proof">
+<em>(По конспекту — от противного, через категории.)</em>
+Допустим, $X$ — 1-й категории, т.&nbsp;е. $X=\bigcup_{n=1}^\infty X_n$, где каждое $X_n$
+нигде не плотно. Возьмём произвольный замкнутый шар $\overline B(z_0,\varepsilon_0)$ в $X$.
+
+Так как $X_1$ нигде не плотно, в $\overline B(z_0,\varepsilon_0)$ найдётся замкнутый шар
+$\overline B_1=\overline B(z_1,\varepsilon_1)$, $0\lt \varepsilon_1\lt \tfrac12$, такой, что
+$\overline B_1\cap X_1=\varnothing$ (можно выбрать в дополнении к $\overline{X_1}$, открытому всюду плотному).
+
+Аналогично, $X_2$ нигде не плотно, поэтому внутри $\overline B_1$ найдётся
+$\overline B_2=\overline B(z_2,\varepsilon_2)$, $\varepsilon_2\lt \tfrac{1}{2^2}$,
+с $\overline B_2\cap X_2=\varnothing$.
+
+Продолжая, получим вложенные замкнутые шары $\overline B_1\supset\overline B_2\supset\dots$
+с $\varepsilon_n\to 0$. По теореме о вложенных шарах (билет 10) в полном пространстве
+$\bigcap_n \overline B_n$ непусто, содержит точку $z^*$. По построению $z^*\notin X_n$ ни для
+какого $n$, значит $z^*\notin\bigcup X_n=X$ — противоречие. Следовательно, $X$ — 2-й категории. <span class="qed">∎</span>
+</div>
+
+<div class="remark">
+<strong>Эквивалентность двух форм.</strong> $F$ нигде не плотно $\iff$ $X\setminus\overline F$
+— всюду плотное открытое. Если $X=\bigcup F_n$ ($F_n$ нигде не плотны), то
+$\bigcap (X\setminus\overline{F_n})=\varnothing$ — противоречит «пересечение счётного семейства
+плотных открытых всюду плотно».
+</div>
+
+<div class="remark">
+Из теоремы Бэра следуют фундаментальные результаты функционального анализа:
+теорема Банаха–Штейнхауса, теорема об открытом отображении и теорема о замкнутом графике.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 12 ============================ -->
+<div class="ticket" id="b12">
+<h2>Билет 12. Пополнение метрического пространства (с доказательством).</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 2, 16.02.2026 — пополнение через B(X)</div>
+
+<div class="def">
+<em>Пополнением</em> метрического пространства $(X,\rho)$ называется тройка
+$(\widehat X,\widehat\rho,\psi)$, где $(\widehat X,\widehat\rho)$ — полное метрическое пространство,
+$\psi:X\to\widehat X$ — изометрическое вложение, причём $\psi(X)$ всюду плотно в $\widehat X$.
+</div>
+
+<div class="thm">
+<strong>Теорема Кантора о пополнении.</strong> Для всякого метрического пространства $X$
+существует пополнение, единственное с точностью до изометрии, тождественной на $\psi(X)$.
+</div>
+
+<div class="label">Основной способ из конспекта (аналитический, через $B(X)$).</div>
+<div class="proof">
+Пусть $B(X)$ — множество всех ограниченных функций $g:X\to\mathbb{R}$ с метрикой
+$\rho_\infty(g_1,g_2)=\sup_{x\in X}|g_1(x)-g_2(x)|$. Из билета 9 известно, что $B(X)$ полно.
+
+Зафиксируем точку $x_0\in X$ и положим для $a\in X$ функцию
+$$\psi_a(x):=\rho(x,a)-\rho(x,x_0).$$
+По свойству $|\rho(x,a)-\rho(y,a)|\le\rho(x,y)$ (билет 7): $|\psi_a(x)|\le \rho(a,x_0)$,
+т.&nbsp;е. $\psi_a\in B(X)$. Определим $\psi:X\to B(X)$, $a\mapsto\psi_a$.
+
+<em>Изометричность.</em>
+$\rho_\infty(\psi_a,\psi_b)=\sup_x |\rho(x,a)-\rho(x,b)|$. С одной стороны, по неравенству
+треугольника эта величина $\le\rho(a,b)$. С другой стороны, при $x=b$ получаем
+$|\rho(b,a)-\rho(b,b)|=\rho(a,b)$. Значит, $\rho_\infty(\psi_a,\psi_b)=\rho(a,b)$ — изометрия.
+
+Положим $\widehat X:=\overline{\psi(X)}$ — замыкание $\psi(X)$ в $B(X)$. Замкнутое подмножество полного
+пространства полно, $\psi(X)$ всюду плотно в $\widehat X$ по построению. <span class="qed">∎</span>
+</div>
+
+<div class="proof">
+<em>Единственность.</em> Пусть $(Z,\eta)$ — другое пополнение, $\varphi:X\to Z$ — соответствующее
+вложение. Изометрия $\psi(X)\to\varphi(X)$, $\psi_a\mapsto\varphi(a)$, продолжается по непрерывности на
+замыкание (используя полноту $Z$): фундаментальная $\psi_{a_n}\to z$ переходит в фундаментальную
+$\varphi(a_n)\to z'\in Z$. Получаем изометрию $\widehat X\to Z$, тождественную на $\psi(X)$. <span class="qed">∎</span>
+</div>
+
+<div class="label">Альтернативный способ (алгебраический / Кантор).</div>
+<div class="proof">
+Рассмотрим множество всех фундаментальных последовательностей в $X$. Введём на нём
+отношение эквивалентности:
+$(x_n)\sim(y_n) \iff \rho(x_n,y_n)\to 0.$
+(Рефлексивность и симметрия очевидны; транзитивность — по неравенству треугольника
+$\rho(x_n,z_n)\le \rho(x_n,y_n)+\rho(y_n,z_n)$.)
+
+Положим $\widetilde X=\{[(x_n)]: (x_n)\text{ фундаментальная}\}$. Определим метрику на $\widetilde X$:
+$$ \widetilde\rho([(x_n)],[(y_n)]):=\lim_{n\to\infty}\rho(x_n,y_n).$$
+Этот предел существует: $|\rho(x_n,y_n)-\rho(x_m,y_m)|\le \rho(x_n,x_m)+\rho(y_n,y_m)\to 0$.
+Корректность (независимость от представителя класса) проверяется аналогично. Аксиомы метрики
+наследуются от $\rho$ по предельному переходу.
+
+Вложение $i:X\to\widetilde X$: $i(x)=[(x,x,x,\dots)]$. Тогда $\widetilde\rho(i(x),i(y))=\rho(x,y)$ — изометрия.
+
+<em>Плотность $i(X)$:</em> для класса $[(x_n)]$ рассмотрим $i(x_n)$; тогда
+$\widetilde\rho([(x_n)],i(x_m))=\lim_k\rho(x_k,x_m)\to 0$ при $m\to\infty$ (фундаментальность).
+
+<em>Полнота $\widetilde X$:</em> пусть $(\xi^{(k)})\subset\widetilde X$ — фундаментальная. По плотности
+$i(X)$ для каждого $k$ найдём $y_k\in X$ с $\widetilde\rho(\xi^{(k)},i(y_k))\lt 1/k$.
+Тогда $(y_k)$ — фундаментальная в $X$, и $\xi:=[(y_k)]\in\widetilde X$ — искомый предел.
+<span class="qed">∎</span>
+</div>
+
+</div>
+
+<!-- ============================ БИЛЕТ 13 ============================ -->
+<div class="ticket" id="b13">
+<h2>Билет 13. Принцип сжимающих отображений. Применения.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 2, 10.02.2026 — принцип сжатия, Фредгольм</div>
+
+<div class="def">
+Отображение $A:X\to X$ метрического пространства называется <em>сжимающим</em>, если
+существует $\alpha\in[0,1)$ такое, что $\rho(Ax,Ay)\le \alpha\,\rho(x,y)$ для всех $x,y\in X$.
+</div>
+
+<div class="thm">
+<strong>Принцип Банаха.</strong> Пусть $X$ — полное метрическое пространство, $A:X\to X$ — сжатие.
+Тогда у $A$ существует и единственна неподвижная точка $x^*$, т.&nbsp;е. $Ax^*=x^*$. При этом
+для всякого $x_0\in X$ последовательность $x_{n+1}=Ax_n$ сходится к $x^*$, причём
+$$\rho(x_n,x^*)\le \frac{\alpha^n}{1-\alpha}\,\rho(x_0,x_1).$$
+</div>
+
+<div class="proof">
+<em>Сходимость.</em> $\rho(x_{n+1},x_n)=\rho(Ax_n,Ax_{n-1})\le \alpha\rho(x_n,x_{n-1})\le\dots\le \alpha^n\rho(x_1,x_0)$.
+Для $m>n$:
+$$\rho(x_m,x_n)\le \sum_{k=n}^{m-1}\rho(x_{k+1},x_k)\le \rho(x_1,x_0)\sum_{k=n}^{\infty}\alpha^k=\frac{\alpha^n}{1-\alpha}\rho(x_1,x_0)\to 0.$$
+Значит, $(x_n)$ фундаментальна; полнота даёт предел $x^*$.
+
+<em>Неподвижность:</em> $A$ непрерывно (липшицево), поэтому $x^*=\lim x_{n+1}=\lim Ax_n=Ax^*$.
+
+<em>Единственность:</em> из $Ax^*=x^*,Ay^*=y^*$ получаем $\rho(x^*,y^*)=\rho(Ax^*,Ay^*)\le\alpha\rho(x^*,y^*)$,
+откуда $(1-\alpha)\rho(x^*,y^*)\le 0$, т.&nbsp;е. $x^*=y^*$.
+<span class="qed">∎</span>
+</div>
+
+<div class="label">Применение 1. Уравнение Фредгольма II рода.</div>
+<div class="example">
+$$ y(x)=\lambda\int_a^b K(x,t)y(t)\,dt + f(x),\quad K\in C([a,b]^2),\;f\in C[a,b].$$
+Положим $A:C[a,b]\to C[a,b]$, $(Ay)(x)=\lambda\int_a^b K(x,t)y(t)\,dt+f(x)$. Тогда
+$$\|Ay_1-Ay_2\|_\infty\le |\lambda|\cdot M(b-a)\cdot \|y_1-y_2\|_\infty,$$
+где $M=\max|K|$. При $|\lambda|\lt \dfrac{1}{M(b-a)}$ отображение сжимающее, и уравнение
+имеет единственное решение в $C[a,b]$.
+</div>
+
+<div class="example">
+<strong>Разбор примера (из конспекта).</strong> Решим уравнение
+$$ f(x)=\frac{\lambda}{2}\int_0^1 x\,y\,f(y)\,dy + 2x \quad (=Af),\qquad x\in[0,1].$$
+Здесь $K(x,y)=xy$, $M=1$, $b-a=1$, поэтому $A$ — сжатие при $|\lambda|/2\lt 1$, т.&nbsp;е. $|\lambda|\lt 2$.
+
+<em>Итерации.</em> Заметим, что $Af$ всегда имеет вид $C\cdot x$, поэтому положим $f_n=c_n x$.
+Тогда
+$$ Af_n = \frac{\lambda}{2}\int_0^1 x\,y\,(c_n y)\,dy + 2x = \Big(\frac{\lambda c_n}{6}+2\Big) x,$$
+т.&nbsp;е. $c_{n+1}=\dfrac{\lambda}{6}c_n+2$. Стартуя с $f_0=0$ ($c_0=0$):
+$$ c_n = 2\cdot\frac{1-(\lambda/6)^n}{1-\lambda/6}\;\xrightarrow{n\to\infty}\;\frac{2}{1-\lambda/6}=\frac{12}{6-\lambda}.$$
+Получаем решение $f^*(x)=\dfrac{12}{6-\lambda}\,x$ при $|\lambda|\lt 6$ (а сжимающим оператор был лишь при $|\lambda|\lt 2$, но решение, как видно, существует и в большей области).
+</div>
+
+<div class="label">Применение 2. Уравнение Вольтерра II рода.</div>
+<div class="example">
+$$ y(x)=\lambda\int_a^x K(x,t)y(t)\,dt + f(x).$$
+Здесь $A$ — также интегральный оператор. Прямой оценкой по индукции получается
+$$|A^n y_1(x)-A^n y_2(x)|\le \frac{(|\lambda|M(x-a))^n}{n!}\|y_1-y_2\|_\infty.$$
+При больших $n$ это даёт сжатие $A^n$ с константой $\dfrac{(|\lambda|M(b-a))^n}{n!}\to 0$.
+По обобщённому принципу (сжимающий итерат влечёт неподвижную точку у $A$) уравнение
+Вольтерра разрешимо при <em>любом</em> $\lambda\in\mathbb{R}$.
+</div>
+
+<div class="label">Применение 3. СЛАУ.</div>
+<div class="example">
+Рассмотрим систему $x=Ax+b$ в $\mathbb{R}^n$ с разными метриками:
+<ul>
+<li>В $\rho_\infty$: сжатие $\iff \max_i \sum_j |a_{ij}|\lt 1$ (строчное условие).</li>
+<li>В $\rho_1$: сжатие $\iff \max_j \sum_i |a_{ij}|\lt 1$ (столбцовое).</li>
+<li>В $\rho_2$: сжатие $\iff \sum_{i,j}|a_{ij}|^2\lt 1$ (по норме Фробениуса).</li>
+</ul>
+В каждом случае итерация $x^{(k+1)}=Ax^{(k)}+b$ сходится к решению.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 14 ============================ -->
+<div class="ticket" id="b14">
+<h2>Билет 14. Компактность. Предкомпактные множества.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Стандартный материал — компактность</div>
+
+<div class="def">
+Множество $K\subseteq X$ называется <em>компактным</em> (точнее — секвенциально компактным
+в метрических пространствах эти понятия совпадают), если из всякой последовательности
+$(x_n)\subset K$ можно выделить подпоследовательность, сходящуюся к точке из $K$.
+</div>
+
+<div class="def">
+$K$ <em>предкомпактно</em> (относительно компактно), если $\overline K$ компактно;
+эквивалентно, из любой $(x_n)\subset K$ можно выделить подпоследовательность,
+сходящуюся в $X$ (не обязательно к точке из $K$).
+</div>
+
+<div class="def">
+$K$ называется <em>вполне ограниченным</em>, если для любого $\varepsilon>0$ существует
+конечная $\varepsilon$-сеть, т.&nbsp;е. конечный набор точек $x_1,\dots,x_N$ такой,
+что $K\subseteq \bigcup_{i=1}^N B(x_i,\varepsilon)$.
+</div>
+
+<div class="thm">
+<strong>Теорема Хаусдорфа.</strong> В полном метрическом пространстве множество предкомпактно
+тогда и только тогда, когда оно вполне ограничено.
+</div>
+
+<div class="thm">
+<strong>Эквивалентные определения компактности в метрическом пространстве.</strong>
+$K$ компактно $\iff$
+<ol>
+<li>секвенциально компактно;</li>
+<li>из любого открытого покрытия можно выделить конечное подпокрытие (определение по Гейне–Борелю);</li>
+<li>$K$ вполне ограничено и полно (как подпространство).</li>
+</ol>
+</div>
+
+<div class="example">
+<strong>Примеры.</strong>
+<ul>
+<li>В $\mathbb{R}^n$ компактны $\iff$ ограничены и замкнуты (т. Гейне–Бореля).</li>
+<li>Замкнутый единичный шар в бесконечномерном банаховом пространстве <em>не</em> компактен
+(теорема Рисса).</li>
+<li>В $C[a,b]$ предкомпактны (по т. Арцела–Асколи) — равномерно ограниченные и
+равностепенно непрерывные семейства функций.</li>
+<li>В $\ell_2$ единичный шар <em>не</em> предкомпактен: орты $e_n$ удалены друг от друга на $\sqrt 2$.</li>
+</ul>
+</div>
+
+<div class="thm">
+<strong>Свойства компактных множеств.</strong>
+<ol>
+<li>Компактное множество замкнуто и ограничено.</li>
+<li>Непрерывный образ компакта — компакт.</li>
+<li>Непрерывная функция на компакте достигает своих $\sup$ и $\inf$ (теорема Вейерштрасса).</li>
+<li>Непрерывная функция на компакте равномерно непрерывна (теорема Кантора).</li>
+</ol>
+</div>
+</div>
+
+<div class="nav">
+  <a href="index.html">← оглавление</a>
+  <a href="part2-linear.html">Часть II →</a>
+</div>
+
+</body>
+</html>
+�

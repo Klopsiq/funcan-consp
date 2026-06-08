@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Часть III. Нормированные и евклидовы пространства (27–30)</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root { --bg:#fafaf8; --fg:#1a1a1a; --muted:#666; --accent:#2563eb;
+          --border:#d1d5db; --card:#ffffff; --proof-bg:#f3f4f6; }
+  * { box-sizing: border-box; }
+  body { font-family:'Charter','Georgia','Times New Roman',serif; line-height:1.7;
+         max-width:880px; margin:0 auto; padding:32px 24px 100px;
+         background:var(--bg); color:var(--fg); font-size:17px; }
+  h1 { font-size:1.9em; border-bottom:2px solid var(--fg); padding-bottom:8px; }
+  .nav { margin:12px 0 28px; font-size:0.95em; }
+  .nav a { color:var(--accent); text-decoration:none; margin-right:14px; }
+  .nav a:hover { text-decoration:underline; }
+  .ticket { background:var(--card); border:1px solid var(--border);
+            border-radius:8px; padding:22px 26px; margin:28px 0; }
+  .ticket h2 { margin-top:0; font-size:1.25em; color:var(--accent); }
+  .label { display:inline-block; font-weight:bold; color:#374151;
+           text-transform:uppercase; font-size:0.78em; letter-spacing:0.06em;
+           margin-top:14px; margin-bottom:2px; }
+  .def, .thm, .lemma, .example, .remark {
+    border-left:3px solid var(--border); padding-left:14px; margin:10px 0;
+  }
+  .def { border-color:#10b981; }
+  .thm { border-color:#dc2626; }
+  .lemma { border-color:#7c3aed; }
+  .example { border-color:#0891b2; }
+  .remark { border-color:#9ca3af; font-style:italic; color:#444; }
+  .proof { background:var(--proof-bg); padding:12px 16px; margin:8px 0;
+           border-radius:6px; font-size:0.97em; }
+  .proof::before { content:"Доказательство. "; font-weight:bold; }
+  .qed { float:right; }
+  ul, ol { padding-left:22px; }
+  li { margin:4px 0; }
+  .toc { background:#eef2ff; padding:14px 22px; border-radius:8px; font-size:0.95em; }
+  .toc a { color:var(--accent); text-decoration:none; }
+  .toc a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<h1>Часть III. Нормированные и евклидовы пространства</h1>
+<div class="nav">
+  <a href="index.html">← оглавление</a>
+  <a href="part2-linear.html">← Часть II</a>
+  <a href="part4-hilbert.html">Часть IV →</a>
+</div>
+
+<div class="toc">
+<strong>Содержание:</strong>
+<ol start="27">
+  <li><a href="#b27">Нормированные пространства. Банаховы.</a></li>
+  <li><a href="#b28">Подпространство нормированного пространства.</a></li>
+  <li><a href="#b29">Фактор-пространство нормированного пространства.</a></li>
+  <li><a href="#b30">Евклидовы пространства.</a></li>
+</ol>
+</div>
+
+<!-- ============================ БИЛЕТ 27 ============================ -->
+<div class="ticket" id="b27">
+<h2>Билет 27. Нормированные пространства. Банаховы пространства.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 1, 09.02 + лекция 10, 15.04.2026 — нормированные/банаховы</div>
+
+<div class="def">
+<em>Нормой</em> на линейном пространстве $X$ над полем $\mathbb{K}=\mathbb{R}$ или $\mathbb{C}$
+называется функция $\|\cdot\|:X\to\mathbb{R}$, удовлетворяющая трём аксиомам:
+<ol>
+<li>$\|x\|\ge 0$; $\|x\|=0\iff x=0$;</li>
+<li>$\|\lambda x\|=|\lambda|\cdot\|x\|$ для всех $\lambda\in\mathbb{K},\;x\in X$;</li>
+<li>$\|x+y\|\le \|x\|+\|y\|$ (неравенство треугольника).</li>
+</ol>
+Пара $(X,\|\cdot\|)$ — <em>нормированное пространство</em>.
+</div>
+
+<div class="remark">
+Норма задаёт метрику $\rho(x,y)=\|x-y\|$, согласованную с линейной структурой:
+$\rho$ инвариантна относительно сдвигов и однородна. Поэтому нормированное пространство —
+это частный случай метрического линейного пространства.
+</div>
+
+<div class="def">
+Если функция удовлетворяет (2)–(3), но не (1) (т.&nbsp;е. может быть $\|x\|=0$ при $x\ne 0$),
+её называют <em>полунормой</em>.
+</div>
+
+<div class="def">
+<em>Банаховым пространством</em> называется полное нормированное пространство, т.&nbsp;е.
+такое, что всякая фундаментальная по норме последовательность сходится в $X$.
+</div>
+
+<div class="example">
+<strong>Банаховы:</strong>
+<ul>
+<li>$\mathbb{R}^n,\mathbb{C}^n$ с любой из норм $\|x\|_p=(\sum|x_i|^p)^{1/p}$, $1\le p\le\infty$.</li>
+<li>$\ell_p$ ($1\le p\le\infty$) с нормой $\|x\|_p=(\sum|x_n|^p)^{1/p}$ или $\|x\|_\infty=\sup_n|x_n|$.</li>
+<li>$C[a,b]$ с нормой $\|f\|_\infty=\max_{x}|f(x)|$.</li>
+<li>$C^n[a,b]$ с нормой $\|f\|=\sum_{k=0}^n \max|f^{(k)}|$.</li>
+<li>$L_p[a,b]$, $1\le p\le\infty$.</li>
+<li>$c,c_0$ с нормой $\sup$.</li>
+</ul>
+<strong>Не банаховы:</strong> $c_{00}$ с $\sup$-нормой (неполно); $C[a,b]$ с $L_1$-нормой (неполно).
+</div>
+
+<div class="thm">
+<strong>Эквивалентные нормы.</strong> Две нормы $\|\cdot\|_1,\|\cdot\|_2$ на $X$ называются
+эквивалентными, если $\exists C_1,C_2>0$: $C_1\|x\|_1\le \|x\|_2\le C_2\|x\|_1$ для всех $x$.
+Эквивалентные нормы задают одну и ту же топологию и одни и те же сходимости.
+<br>
+<em>Теорема:</em> в конечномерном пространстве все нормы эквивалентны.
+</div>
+
+<div class="thm">
+<strong>Признак банаховости (через ряды).</strong> Нормированное пространство $X$ банахово
+$\iff$ всякий <em>абсолютно сходящийся</em> ряд $\sum_n x_n$ (т.&nbsp;е. $\sum\|x_n\|\lt \infty$)
+сходится в $X$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 28 ============================ -->
+<div class="ticket" id="b28">
+<h2>Билет 28. Подпространство нормированного пространства.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 10, 15.04.2026 — подпространство нормированного пр-ва</div>
+
+<div class="def">
+<em>Подпространством</em> нормированного пространства $X$ называется его линейное
+подпространство $M\subseteq X$. На $M$ автоматически задаётся норма — сужение
+$\|\cdot\|_X$ на $M$. Часто требуют дополнительно <em>замкнутости</em> $M$ в $X$.
+</div>
+
+<div class="thm">
+<strong>Свойства.</strong>
+<ol>
+<li>Замыкание $\overline M$ линейного подпространства снова является линейным подпространством.</li>
+<li>Если $X$ — банахово и $M\subseteq X$ — замкнутое подпространство, то $M$ само банахово
+(замкнутое подмножество полного метрического пространства полно).</li>
+<li>Конечномерное подпространство нормированного пространства всегда замкнуто.</li>
+</ol>
+</div>
+
+<div class="proof">
+<strong>(1)</strong> Пусть $x,y\in\overline M$, $\alpha,\beta\in\mathbb{K}$. Тогда существуют
+$x_n,y_n\in M$ с $x_n\to x, y_n\to y$. Тогда $\alpha x_n+\beta y_n\in M$ и
+$\alpha x_n+\beta y_n\to \alpha x+\beta y$, значит $\alpha x+\beta y\in\overline M$.
+
+<strong>(3)</strong> Пусть $\dim M=n\lt \infty$, $e_1,\dots,e_n$ — базис. По эквивалентности норм
+на конечномерном пространстве, отображение $(\lambda_1,\dots,\lambda_n)\mapsto\sum\lambda_k e_k$
+есть гомеоморфизм $\mathbb{K}^n\to M$. Если $z_k=\sum\lambda_k^{(i)}e_k\to z\in X$, то
+$(z_k)$ фундаментальна в $X$, а значит и в $M$ (норма та же), и по эквивалентности норм
+координаты $\lambda_k^{(i)}$ образуют фундаментальную последовательность в $\mathbb{K}$,
+имеющую предел; следовательно, $z\in M$.
+<span class="qed">∎</span>
+</div>
+
+<div class="example">
+<strong>Замкнутые подпространства:</strong> в $C[0,1]$ — $\{f: f(0)=0\}$ (ядро непрерывного функционала),
+$P_n$ — многочлены степени $\le n$.<br>
+<strong>Не замкнутые:</strong> в $C[0,1]$ — пространство всех многочленов $P$
+(плотно по т. Вейерштрасса, но не равно $C[0,1]$); в $\ell_2$ — $c_{00}$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 29 ============================ -->
+<div class="ticket" id="b29">
+<h2>Билет 29. Фактор-пространство нормированного пространства (с доказательством).</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 10, 15.04.2026 — фактор-пространство нормированного пр-ва</div>
+
+<div class="def">
+Пусть $X$ — нормированное пространство, $M\subseteq X$ — <em>замкнутое</em> подпространство.
+На фактор-пространстве $X/M$ (см. билет 18) определим
+<em>фактор-норму</em>:
+$$ \|[x]\|_{X/M}:=\inf_{m\in M}\|x-m\|=\rho(x,M).$$
+</div>
+
+<div class="thm">
+<strong>Утверждение.</strong> Так определённая величина — норма на $X/M$. Канонический
+проектор $\pi:X\to X/M$ непрерывен, $\|\pi\|\le 1$.
+</div>
+
+<div class="proof">
+<strong>Корректность.</strong> Не зависит от представителя класса: если $x'=x+m_0$, $m_0\in M$,
+то $\inf_{m}\|x'-m\|=\inf_m\|x+m_0-m\|=\inf_{m'}\|x-m'\|$ (замена $m'=m-m_0\in M$).
+
+<strong>(1) Невырожденность.</strong> $\|[x]\|=0\iff \rho(x,M)=0\iff x\in\overline M=M\iff [x]=[0]$.
+Здесь используется <em>замкнутость</em> $M$ — иначе $X/M$ не было бы хаусдорфовым (норма «вырождалась» бы).
+
+<strong>(2) Однородность.</strong> При $\lambda\ne 0$:
+$\|[\lambda x]\|=\inf_m\|\lambda x-m\|=|\lambda|\inf_m\|x-m/\lambda\|=|\lambda|\inf_{m'\in M}\|x-m'\|=|\lambda|\|[x]\|$.
+
+<strong>(3) Треугольник.</strong> Для любых $\varepsilon>0,\;m_1,m_2\in M$ с
+$\|x-m_1\|\lt \|[x]\|+\varepsilon$, $\|y-m_2\|\lt \|[y]\|+\varepsilon$:
+$$\|[x+y]\|\le \|x+y-(m_1+m_2)\|\le \|x-m_1\|+\|y-m_2\|\lt \|[x]\|+\|[y]\|+2\varepsilon.$$
+Переходя $\varepsilon\to 0$: $\|[x+y]\|\le \|[x]\|+\|[y]\|$.
+
+<strong>Непрерывность $\pi$.</strong> $\|\pi(x)\|_{X/M}=\inf_m\|x-m\|\le \|x-0\|=\|x\|$. <span class="qed">∎</span>
+</div>
+
+<div class="thm">
+<strong>Теорема (о банаховости фактор-пространства).</strong> Если $X$ — банахово
+и $M\subset X$ — замкнутое подпространство, то фактор-пространство $X/M$ также банахово.
+</div>
+
+<div class="proof">
+Воспользуемся критерием банаховости через абсолютно сходящиеся ряды (билет 27).
+Пусть $\sum_{n=1}^\infty \|[x_n]\|_{X/M}\lt \infty$. Покажем, что ряд $\sum [x_n]$ сходится в $X/M$.
+
+Для каждого $n$ по определению инфимума выберем представитель $y_n=x_n-m_n$ с $m_n\in M$ так,
+чтобы
+$$\|y_n\|\le \|[x_n]\|+\frac{1}{2^n}.$$
+Тогда $[y_n]=[x_n]$ и
+$$\sum_n\|y_n\|\le \sum_n\|[x_n]\|+\sum_n\frac{1}{2^n}\lt \infty.$$
+Значит, ряд $\sum y_n$ сходится абсолютно в $X$. Поскольку $X$ банахово, он сходится:
+$\sum_{n=1}^N y_n\to S\in X$ при $N\to\infty$.
+
+Применим непрерывный оператор $\pi$:
+$\pi\Bigl(\sum_{n=1}^N y_n\Bigr)=\sum_{n=1}^N [y_n]=\sum_{n=1}^N [x_n] \;\longrightarrow\; [S]\text{ в }X/M.$
+Значит, ряд $\sum [x_n]$ сходится в $X/M$ к $[S]$. По критерию банаховости, $X/M$ банахово. <span class="qed">∎</span>
+</div>
+
+<div class="example">
+<strong>Пример.</strong> $X=C[0,1]$, $M=\{f\in C[0,1]: f(0)=0\}$ — замкнутое подпространство
+(ядро непрерывного функционала). $X/M\cong \mathbb{R}$: классу функции отвечает значение $f(0)$.
+Норма $\|[f]\|=\inf\{\|f-m\|: m(0)=0\}=|f(0)|$.
+</div>
+
+<div class="remark">
+Если $M$ не замкнуто, то $\rho(x,M)$ не является нормой (не выполнена аксиома невырожденности):
+$\rho(x,M)=0$ для $x\in\overline M\setminus M$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 30 ============================ -->
+<div class="ticket" id="b30">
+<h2>Билет 30. Евклидовы пространства. Определение и примеры.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекции 7–8, 30.03.2026 — евклидовы пространства</div>
+
+<div class="def">
+<em>Евклидовым пространством</em> называется вещественное линейное пространство $E$,
+на котором задано <em>скалярное произведение</em> — отображение
+$\langle\cdot,\cdot\rangle:E\times E\to\mathbb{R}$, удовлетворяющее аксиомам:
+<ol>
+<li>(симметричность) $\langle x,y\rangle=\langle y,x\rangle$;</li>
+<li>(линейность по первому аргументу) $\langle\alpha x_1+\beta x_2,\;y\rangle=\alpha\langle x_1,y\rangle+\beta\langle x_2,y\rangle$;</li>
+<li>(положительная определённость) $\langle x,x\rangle\ge 0$ и $\langle x,x\rangle=0\iff x=0$.</li>
+</ol>
+В комплексном случае ($\mathbb{K}=\mathbb{C}$) аналогичный объект называют <em>унитарным
+пространством</em>: симметричность заменяется на эрмитовость $\langle x,y\rangle=\overline{\langle y,x\rangle}$,
+а линейность — на полуторалинейность.
+</div>
+
+<div class="def">
+Норма, порождённая скалярным произведением: $\|x\|:=\sqrt{\langle x,x\rangle}$.
+</div>
+
+<div class="thm">
+<strong>Неравенство Коши–Буняковского.</strong> Для всех $x,y\in E$:
+$$|\langle x,y\rangle|\le \|x\|\cdot\|y\|,$$
+причём равенство $\iff$ $x,y$ линейно зависимы.
+</div>
+
+<div class="proof">
+Если $y=0$ — тривиально. Иначе для любого $\lambda\in\mathbb{R}$:
+$0\le \|x-\lambda y\|^2 = \langle x,x\rangle - 2\lambda\langle x,y\rangle + \lambda^2\langle y,y\rangle.$
+Это квадратный трёхчлен от $\lambda$, всегда неотрицательный. Минимум достигается при
+$\lambda^*=\langle x,y\rangle/\langle y,y\rangle$; подставляя:
+$0\le \|x\|^2-\dfrac{\langle x,y\rangle^2}{\|y\|^2}$, откуда $\langle x,y\rangle^2\le \|x\|^2\|y\|^2$.
+Равенство $\iff$ $x-\lambda^* y=0$, т.&nbsp;е. линейная зависимость. <span class="qed">∎</span>
+</div>
+
+<div class="thm">
+$\|x\|=\sqrt{\langle x,x\rangle}$ — норма на $E$.
+</div>
+
+<div class="proof">
+Аксиомы (1)–(2) нормы — очевидны. Треугольник:
+$\|x+y\|^2=\|x\|^2+2\langle x,y\rangle+\|y\|^2\le \|x\|^2+2\|x\|\|y\|+\|y\|^2=(\|x\|+\|y\|)^2$ (по К.–Б.). <span class="qed">∎</span>
+</div>
+
+<div class="thm">
+<strong>Тождество параллелограмма.</strong> Для всех $x,y\in E$:
+$$\|x+y\|^2+\|x-y\|^2=2\|x\|^2+2\|y\|^2.$$
+</div>
+
+<div class="proof">
+$\|x\pm y\|^2=\|x\|^2\pm 2\langle x,y\rangle+\|y\|^2$. Сложение даёт тождество. <span class="qed">∎</span>
+</div>
+
+<div class="remark">
+Тождество параллелограмма — <em>характеристическое</em> свойство евклидовости: норма
+на нормированном пространстве происходит из скалярного произведения $\iff$ выполнено
+тождество параллелограмма (теорема Йордана–фон Неймана, см. билет 43).
+</div>
+
+<div class="label">Основные примеры</div>
+
+<div class="example">
+<strong>1) $\mathbb{R}^n$.</strong> $\langle x,y\rangle=\sum_{k=1}^n x_k y_k$ — стандартное.<br>
+<strong>2) $\mathbb{C}^n$.</strong> $\langle x,y\rangle=\sum x_k \overline{y_k}$ (унитарное).<br>
+<strong>3) $\ell_2$.</strong> $\langle x,y\rangle=\sum_{n=1}^\infty x_n y_n$. Сходимость гарантирована
+неравенством Гёльдера: $\sum|x_n y_n|\le \|x\|_2\|y\|_2$.<br>
+<strong>4) $L_2[a,b]$.</strong> $\langle f,g\rangle=\int_a^b f(x)g(x)\,dx$ (для вещественнозначных)
+или $\int f\overline g$ (для комплексных).<br>
+<strong>5) $C[a,b]$ со скалярным произведением $\langle f,g\rangle=\int_a^b fg$:</strong> евклидово,
+но <em>не</em> гильбертово (неполно по этой метрике).<br>
+<strong>6) Соболевское $H^1[a,b]$:</strong> $\langle f,g\rangle=\int(fg+f'g')$ — евклидово.
+</div>
+
+<div class="def">
+<em>Ортогональность.</em> Векторы $x,y\in E$ называются <em>ортогональными</em> ($x\perp y$),
+если $\langle x,y\rangle=0$. Для ортогональных $x,y$: $\|x+y\|^2=\|x\|^2+\|y\|^2$ — <em>теорема Пифагора</em>.
+</div>
+
+<div class="def">
+<em>Угол</em> между ненулевыми $x,y$ в вещественном евклидовом пространстве:
+$\cos\theta=\dfrac{\langle x,y\rangle}{\|x\|\|y\|}\in[-1,1]$ (корректно по неравенству К.–Б.).
+</div>
+
+<div class="remark">
+Полное евклидово пространство называется <em>гильбертовым</em> (см. далее, билеты 35, 37).
+Примеры гильбертовых: $\mathbb{R}^n$, $\ell_2$, $L_2$. Пример евклидова, но не гильбертова:
+$C[a,b]$ с $L_2$-скалярным произведением. Его пополнением является $L_2[a,b]$.
+</div>
+
+<div class="label">Примеры ортогональных и ортонормированных систем (из конспекта)</div>
+<div class="example">
+<strong>1) Тригонометрическая система в $L_2[0,2\pi]$.</strong>
+$$\{1,\;\cos x,\;\sin x,\;\cos 2x,\;\sin 2x,\;\dots\}$$
+— ортогональная система. Деление на нормы даёт ОНС:
+$$\frac{1}{\sqrt{2\pi}},\;\frac{\cos kx}{\sqrt\pi},\;\frac{\sin kx}{\sqrt\pi},\quad k=1,2,\dots$$
+Это и есть ОНБ в $L_2[0,2\pi]$ — классический тригонометрический ряд Фурье.
+
+<strong>2) Многочлены Лежандра в $L_2[-1,1]$.</strong>
+$$P_n(x)=\frac{1}{2^n\,n!}\,\frac{d^n}{dx^n}(x^2-1)^n,\qquad n=0,1,2,\dots$$
+Система $\{P_n\}_{n=0}^\infty$ ортогональна в $L_2[-1,1]$: $\int_{-1}^1 P_m(x)P_n(x)\,dx=\dfrac{2}{2n+1}\delta_{mn}$.
+После нормировки получаем ОНБ: $\widetilde P_n(x)=\sqrt{(2n+1)/2}\,P_n(x)$.
+
+<strong>Лемма (из конспекта).</strong> В сепарабельном евклидовом пространстве существует ОНБ
+(доказательство — процесс ортогонализации Грама–Шмидта применительно к счётному всюду
+плотному набору; см. билет 31).
+</div>
+</div>
+
+<div class="nav">
+  <a href="index.html">← оглавление</a>
+  <a href="part2-linear.html">← Часть II</a>
+  <a href="part4-hilbert.html">Часть IV →</a>
+</div>
+
+</body>
+</html>

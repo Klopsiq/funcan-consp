@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Часть II. Линейные пространства и Хан–Банах (15–26)</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root { --bg:#fafaf8; --fg:#1a1a1a; --muted:#666; --accent:#2563eb;
+          --border:#d1d5db; --card:#ffffff; --proof-bg:#f3f4f6; }
+  * { box-sizing: border-box; }
+  body { font-family:'Charter','Georgia','Times New Roman',serif; line-height:1.7;
+         max-width:880px; margin:0 auto; padding:32px 24px 100px;
+         background:var(--bg); color:var(--fg); font-size:17px; }
+  h1 { font-size:1.9em; border-bottom:2px solid var(--fg); padding-bottom:8px; }
+  .nav { margin:12px 0 28px; font-size:0.95em; }
+  .nav a { color:var(--accent); text-decoration:none; margin-right:14px; }
+  .nav a:hover { text-decoration:underline; }
+  .ticket { background:var(--card); border:1px solid var(--border);
+            border-radius:8px; padding:22px 26px; margin:28px 0; }
+  .ticket h2 { margin-top:0; font-size:1.25em; color:var(--accent); }
+  .label { display:inline-block; font-weight:bold; color:#374151;
+           text-transform:uppercase; font-size:0.78em; letter-spacing:0.06em;
+           margin-top:14px; margin-bottom:2px; }
+  .def, .thm, .lemma, .example, .remark {
+    border-left:3px solid var(--border); padding-left:14px; margin:10px 0;
+  }
+  .def { border-color:#10b981; }
+  .thm { border-color:#dc2626; }
+  .lemma { border-color:#7c3aed; }
+  .example { border-color:#0891b2; }
+  .remark { border-color:#9ca3af; font-style:italic; color:#444; }
+  .proof { background:var(--proof-bg); padding:12px 16px; margin:8px 0;
+           border-radius:6px; font-size:0.97em; }
+  .proof::before { content:"Доказательство. "; font-weight:bold; }
+  .qed { float:right; }
+  ul, ol { padding-left:22px; }
+  li { margin:4px 0; }
+  .toc { background:#eef2ff; padding:14px 22px; border-radius:8px; font-size:0.95em; }
+  .toc a { color:var(--accent); text-decoration:none; }
+  .toc a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<h1>Часть II. Линейные пространства. Теорема Хана–Банаха.</h1>
+<div class="nav">
+  <a href="index.html">← оглавление</a>
+  <a href="part1-metric.html">← Часть I</a>
+  <a href="part3-normed.html">Часть III →</a>
+</div>
+
+<div class="toc">
+<strong>Содержание:</strong>
+<ol start="15">
+  <li><a href="#b15">Линейное пространство.</a></li>
+  <li><a href="#b16">Линейная зависимость.</a></li>
+  <li><a href="#b17">Подпространство.</a></li>
+  <li><a href="#b18">Фактор-пространство.</a></li>
+  <li><a href="#b19">Линейный функционал. Примеры.</a></li>
+  <li><a href="#b20">Геометрический смысл функционала.</a></li>
+  <li><a href="#b21">Выпуклые множества и тела. Ядро.</a></li>
+  <li><a href="#b22">Свойства выпуклых множеств. Симплекс.</a></li>
+  <li><a href="#b23">Однородно-выпуклые функционалы.</a></li>
+  <li><a href="#b24">Функционал Минковского.</a></li>
+  <li><a href="#b25">Теорема Хана–Банаха (вещественный случай).</a></li>
+  <li><a href="#b26">Отделимость выпуклых множеств.</a></li>
+</ol>
+</div>
+
+<!-- ============================ БИЛЕТ 15 ============================ -->
+<div class="ticket" id="b15">
+<h2>Билет 15. Линейное пространство.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 2, 10.02.2026 — линейное пространство</div>
+
+<div class="def">
+Множество $L$ называется <em>линейным (векторным) пространством</em> над полем $\mathbb{K}$
+(чаще всего $\mathbb{R}$ или $\mathbb{C}$), если на $L$ заданы операции сложения
+$+:L\times L\to L$ и умножения на скаляры $\cdot:\mathbb{K}\times L\to L$,
+удовлетворяющие аксиомам:
+<ol>
+<li>$x+y=y+x$;</li>
+<li>$(x+y)+z=x+(y+z)$;</li>
+<li>существует $0\in L$: $x+0=x$ для всех $x$;</li>
+<li>для каждого $x$ существует $-x$: $x+(-x)=0$;</li>
+<li>$1\cdot x = x$;</li>
+<li>$\alpha(\beta x)=(\alpha\beta)x$;</li>
+<li>$(\alpha+\beta)x=\alpha x+\beta x$;</li>
+<li>$\alpha(x+y)=\alpha x+\alpha y$.</li>
+</ol>
+Сокращённо: $(L,+)$ — абелева группа, с действием поля $\mathbb{K}$.
+</div>
+
+<div class="example">
+<strong>Примеры:</strong> $\mathbb{R}^n$, $\mathbb{C}^n$, $s$, $\ell_p$, $C[a,b]$, $L_p[a,b]$,
+$P_n$ — многочлены степени $\le n$, $C^\infty$ — гладкие функции, $M_{m\times n}$ — матрицы.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 16 ============================ -->
+<div class="ticket" id="b16">
+<h2>Билет 16. Линейная зависимость.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 2, 10.02.2026 — линейная зависимость, базис Гамеля</div>
+
+<div class="def">
+Конечный набор $x_1,\dots,x_n\in L$ называется <em>линейно зависимым</em>, если существуют скаляры
+$\alpha_1,\dots,\alpha_n$, не все равные нулю, такие, что
+$\alpha_1 x_1+\dots+\alpha_n x_n=0.$
+Бесконечное множество линейно зависимо, если какая-то его конечная подсистема линейно зависима.
+Иначе — <em>линейно независимо</em>.
+</div>
+
+<div class="def">
+<em>Базисом Гамеля</em> (алгебраическим базисом) пространства $L$ называется максимальная по включению
+линейно независимая система $\{e_\alpha\}_{\alpha\in I}\subset L$. Эквивалентно: любая $x\in L$
+единственным образом представима в виде конечной линейной комбинации
+$x=\sum_{k=1}^n c_k e_{\alpha_k}$.
+
+<em>Размерность</em> $\dim L$ — мощность базиса Гамеля (определена корректно).
+</div>
+
+<div class="thm">
+В любом линейном пространстве существует базис Гамеля.
+</div>
+
+<div class="remark">
+Доказательство — стандартное применение леммы Цорна к множеству линейно независимых
+систем, упорядоченному по включению. Цепь линейно независимых систем имеет верхней
+гранью своё объединение (которое тоже линейно независимо, поскольку линейная зависимость
+устанавливается конечной подсистемой).
+</div>
+
+<div class="example">
+В $\mathbb{R}^n$ — стандартный базис $e_1=(1,0,\dots,0),\dots,e_n=(0,\dots,0,1)$, размерность $n$.
+В $P_n$ — $1,x,x^2,\dots,x^n$, размерность $n+1$. В $C[a,b]$ базис Гамеля несчётен.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 17 ============================ -->
+<div class="ticket" id="b17">
+<h2>Билет 17. Подпространство линейного пространства.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 3, 23.02.2026 — подпространство</div>
+
+<div class="def">
+Подмножество $M\subseteq L$ называется <em>(линейным) подпространством</em>, если оно само
+есть линейное пространство относительно тех же операций. Эквивалентно: $M\ne\varnothing$ и
+для любых $x,y\in M,\;\alpha,\beta\in\mathbb{K}$ имеем $\alpha x+\beta y\in M$.
+</div>
+
+<div class="def">
+<em>Линейная оболочка</em> множества $S\subseteq L$: $\mathrm{span}(S)=\{\sum_{k=1}^n \alpha_k s_k: s_k\in S,\;\alpha_k\in\mathbb{K}\}$
+— наименьшее подпространство, содержащее $S$.
+</div>
+
+<div class="example">
+В $C[a,b]$: $\{f: f(a)=0\}$, $\{f: \int_a^b f=0\}$ — подпространства. Многочлены $P\subset C[a,b]$ — подпространство.
+В $\ell_2$: $c_{00}$ (финитные) — подпространство (не замкнутое).
+</div>
+
+<div class="remark">
+В нормированном пространстве принято словом «подпространство» иногда называть именно
+<em>замкнутое</em> подпространство; в чисто алгебраическом контексте — любое алгебраическое.
+В этом курсе различают: «линейное подпространство» (алгебраическое) и «замкнутое подпространство».
+</div>
+
+<div class="def">
+<em>Сумма подпространств:</em> $M+N=\{m+n: m\in M, n\in N\}$ — подпространство.
+<em>Прямая сумма:</em> $M\oplus N$ — это $M+N$ при условии $M\cap N=\{0\}$; в этом случае
+каждый $z\in M+N$ единственным образом представим в виде $z=m+n$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 18 ============================ -->
+<div class="ticket" id="b18">
+<h2>Билет 18. Фактор-пространство линейного пространства.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 3, 23.02.2026 — фактор-пространство</div>
+
+<div class="def">
+Пусть $L$ — линейное пространство, $M\subseteq L$ — подпространство. На $L$ введём
+отношение эквивалентности: $x\sim y \iff x-y\in M$. Классы эквивалентности обозначим
+$[x]=x+M=\{x+m: m\in M\}$ — <em>смежные классы</em>.
+Множество классов $L/M:=\{[x]: x\in L\}$ называется <em>фактор-пространством</em>.
+</div>
+
+<div class="def">
+На $L/M$ корректно определены операции:
+$$[x]+[y]:=[x+y],\qquad \alpha[x]:=[\alpha x].$$
+Корректность: если $x\sim x'$, $y\sim y'$, то $x-x',y-y'\in M$, значит $(x+y)-(x'+y')\in M$
+и $\alpha x-\alpha x'\in M$.
+
+При этих операциях $L/M$ — линейное пространство. Нулевой элемент — $[0]=M$.
+</div>
+
+<div class="def">
+<em>Канонический проектор</em> $\pi:L\to L/M$, $\pi(x)=[x]$ — линейный сюръективный оператор
+с ядром $\ker\pi=M$.
+</div>
+
+<div class="thm">
+$\dim L/M = \dim L - \dim M$ (когда обе части конечны). Размерность $\dim L/M$ называется
+<em>коразмерностью</em> подпространства $M$ в $L$ и обозначается $\mathrm{codim}\,M$.
+</div>
+
+<div class="example">
+$L=\mathbb{R}^3$, $M$ — двумерная плоскость через 0. $L/M\cong\mathbb{R}$.
+
+$L=C[0,1]$, $M=\{f: f(0)=0\}$. Тогда $L/M\cong\mathbb{R}$: класс функции $f$ полностью
+определяется значением $f(0)$.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 19 ============================ -->
+<div class="ticket" id="b19">
+<h2>Билет 19. Линейный функционал. Примеры.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 3, 23.02.2026 — линейные функционалы, ker f</div>
+
+<div class="def">
+<em>Линейный функционал</em> на $L$ — это линейное отображение $f:L\to\mathbb{K}$:
+$$f(\alpha x+\beta y)=\alpha f(x)+\beta f(y).$$
+Множество всех линейных функционалов на $L$ обозначают $L^\#$ — <em>алгебраически сопряжённое
+пространство</em>; оно само является линейным пространством.
+</div>
+
+<div class="example">
+<strong>1)</strong> На $\mathbb{R}^n$: $f(x)=\sum a_i x_i = \langle a,x\rangle$, где $a\in\mathbb{R}^n$ — фиксированный вектор.
+Любой функционал на конечномерном пространстве имеет такой вид.
+
+<strong>2)</strong> На $C[a,b]$:
+$f(\varphi)=\int_a^b \varphi(t)g(t)\,dt$ при фиксированной $g$;
+$f(\varphi)=\varphi(x_0)$ при фиксированной точке $x_0\in[a,b]$ (функционал-точка);
+$f(\varphi)=\sum_{k=1}^n c_k \varphi(t_k)$ — квадратурный.
+
+<strong>3)</strong> На $C^1[a,b]$: $f(\varphi)=\varphi'(x_0)$.
+
+<strong>4)</strong> На $\ell_2$: $f(x)=\sum c_n x_n$ при $c\in\ell_2$.
+
+<strong>5)</strong> Линейный функционал на $L_p[a,b]$ при $1\lt p\lt \infty$: $f(\varphi)=\int \varphi g$,
+$g\in L_q$, $\frac{1}{p}+\frac{1}{q}=1$.
+</div>
+
+<div class="remark">
+Алгебраически сопряжённое $L^\#$ существенно отличается от <em>топологического</em>
+сопряжённого $L^*$ (см. билет 50): в $L^*$ берутся лишь <em>непрерывные</em> функционалы.
+</div>
+
+<div class="thm">
+<strong>Подход из конспекта (через $\ker f$).</strong> Для ненулевого линейного функционала
+$f:L\to\mathbb{R}$ ядро $\ker f=\{x\in L: f(x)=0\}$ — это <em>подпространство коразмерности 1</em>,
+т.&nbsp;е. $\dim(L/\ker f)=1$.
+
+<em>Идея.</em> Возьмём $x_0\notin\ker f$ (существует, ибо $f\ne 0$); считаем $f(x_0)=1$.
+Любой $x\in L$ единственным образом представляется в виде $x=y+\lambda x_0$, где
+$y=x-f(x)\,x_0\in\ker f$ и $\lambda=f(x)$. Значит, $L=\ker f\oplus\langle x_0\rangle$,
+а в фактор-пр-ве $L/\ker f$ остаётся одно «направление» — класс $[x_0]$.
+</div>
+
+<div class="remark">
+Из этого следует и геометрический смысл (билет 20): множества уровня $\{f=c\}$ — это
+сдвиги ядра, т.&nbsp;е. гиперплоскости коразмерности 1.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 20 ============================ -->
+<div class="ticket" id="b20">
+<h2>Билет 20. Геометрический смысл линейного функционала (с доказательством).</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 3, 23.02.2026 — геометрический смысл функционала</div>
+
+<div class="def">
+<em>Гиперплоскостью</em> в линейном пространстве $L$ называется множество вида $x_0+M$,
+где $M\subset L$ — подпространство коразмерности 1. Гиперплоскость, проходящая через 0,
+— это само $M$ (т.&nbsp;е. подпространство коразмерности 1); общая гиперплоскость — её сдвиг.
+</div>
+
+<div class="thm">
+<strong>Теорема (геометрический смысл функционала).</strong> Пусть $L$ — линейное пространство
+над $\mathbb{R}$ (или $\mathbb{C}$). Тогда
+<ol>
+<li>Для всякого ненулевого линейного функционала $f:L\to\mathbb{K}$ и всякого
+$c\in\mathbb{K}$ множество $H_c=\{x\in L: f(x)=c\}$ есть гиперплоскость. При $c=0$
+$H_0=\ker f$ — подпространство коразмерности 1.</li>
+<li>Обратно, всякая гиперплоскость $H\subset L$ есть множество уровня $H=\{x:f(x)=c\}$
+некоторого линейного функционала $f\ne 0$. Этот функционал определён с точностью до
+ненулевого скалярного множителя; пара $(f,c)$ — с точностью до общего множителя.</li>
+</ol>
+</div>
+
+<div class="proof">
+<strong>1)</strong> Пусть $f\ne 0$. Тогда найдётся $x_1$ с $f(x_1)\ne 0$; считаем $f(x_1)=1$
+(нормировка). Утверждаем, что $L=\ker f\oplus\langle x_1\rangle$. Действительно, для любого $x\in L$
+положим $\lambda=f(x)$ и $y=x-\lambda x_1$. Тогда $f(y)=f(x)-\lambda f(x_1)=\lambda-\lambda=0$,
+т.&nbsp;е. $y\in\ker f$. Значит, $x=y+\lambda x_1$ — разложение. Единственность: если
+$x=y'+\lambda' x_1$, то $f$ от обеих частей даёт $\lambda=\lambda'$.
+
+Следовательно, $\mathrm{codim}\,\ker f = 1$ и $\ker f$ — гиперплоскость через 0.
+Для произвольного $c$: пусть $x_c=c\cdot x_1$, тогда $f(x_c)=c$ и
+$H_c=\{x: f(x)=c\}=\{x_c+y: y\in \ker f\}=x_c+\ker f$ — сдвиг гиперплоскости.
+
+<strong>2)</strong> Пусть $H=x_0+M$ — гиперплоскость, $M$ — подпространство коразмерности 1.
+По разложению $L=M\oplus\langle e\rangle$ для некоторого $e\notin M$. Определим
+$f:L\to\mathbb{K}$, $f(m+\lambda e):=\lambda$ — линеен по построению.
+Тогда $\ker f=M$, и $f(x_0)=:c_0$. Получаем $H=\{x: f(x)=c_0\}$.
+
+<strong>Единственность.</strong> Пусть $\{x:f(x)=c\}=\{x:g(x)=d\}=H$, причём $f,g\ne 0$.
+Тогда оба функционала имеют ядро $M=H-x_0$ (где $x_0\in H$ — любая точка). Но любые два
+линейных функционала с одним ядром коразмерности 1 пропорциональны: фиксируем $e\notin M$,
+тогда $f(e)\ne 0,\;g(e)\ne 0$, и $g=\frac{g(e)}{f(e)}f$ на $\langle e\rangle$, а на $M$ — оба равны 0.
+Из $f(x_0)=c$, $g(x_0)=d$ получаем $d=\frac{g(e)}{f(e)}c$. <span class="qed">∎</span>
+</div>
+
+<div class="remark">
+Итог: «линейный функционал $\leftrightarrow$ гиперплоскость». В нормированных пространствах
+непрерывные функционалы соответствуют замкнутым гиперплоскостям.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 21 ============================ -->
+<div class="ticket" id="b21">
+<h2>Билет 21. Выпуклые множества и выпуклые тела. Ядро множества.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекции 3–4, 23.02–02.03.2026 — выпуклые тела, ядро J(A)</div>
+
+<div class="def">
+Множество $A\subseteq L$ называется <em>выпуклым</em>, если для любых $x,y\in A$ и любого $\lambda\in[0,1]$
+имеем $\lambda x+(1-\lambda)y\in A$.
+</div>
+
+<div class="def">
+<em>Выпуклая оболочка</em> $\mathrm{conv}\,S$ — наименьшее выпуклое множество, содержащее $S$;
+равна множеству всех <em>выпуклых комбинаций</em>:
+$$ \mathrm{conv}\,S=\Big\{\sum_{k=1}^n \lambda_k s_k:\; n\in\mathbb{N},\; s_k\in S,\;\lambda_k\ge 0,\;\sum\lambda_k=1\Big\}. $$
+</div>
+
+<div class="def">
+<em>Ядро множества</em> $J(A)$ (алгебраическая внутренность; в литературе встречается также обозначение $\mathrm{core}\,A$, в конспекте — $J(A)$) — множество таких
+$x_0\in A$, что для любого $h\in L$ найдётся $\varepsilon>0$ с $x_0+t h\in A$ для всех $|t|\lt \varepsilon$.
+Иначе говоря, $A$ <em>поглощает</em> любой луч, выходящий из $x_0$ в обе стороны
+вблизи $x_0$.
+</div>
+
+<div class="def">
+Множество $A$ называется <em>выпуклым телом</em>, если оно выпукло и $J(A)\ne\varnothing$
+(имеет непустое ядро).
+</div>
+
+<div class="example">
+<strong>1)</strong> Шар $\overline B(0,r)$ в нормированном пространстве — выпуклое тело
+(ядро = открытый шар).<br>
+<strong>2)</strong> $\{x\in\ell_2: |x_n|\le 1/n\}$ — выпуклое множество, но его ядро <em>пусто</em>.
+Действительно, для любого $x_0$ из этого множества и $h=e_k$ (стандартный орт), при сдвиге
+$x_0+t e_k$ при достаточно большом $k$ нарушится $|x_n|\le 1/n$ в $n=k$ при любом $t\ne 0$, если $1/k$ мало.<br>
+<strong>3)</strong> Любой отрезок в $\mathbb{R}^n$ ($n\ge 2$) — выпуклое множество, но не тело
+(ядро пусто).
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 22 ============================ -->
+<div class="ticket" id="b22">
+<h2>Билет 22. Свойства выпуклых множеств. Симплекс.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 3, 23.02.2026 — свойства выпуклых, симплекс</div>
+
+<div class="thm">
+<strong>Свойства выпуклых множеств.</strong>
+<ol>
+<li>Пересечение любого семейства выпуклых множеств выпукло.</li>
+<li>Сумма $A+B=\{a+b\}$ и сдвиг $a+A$ выпуклых множеств выпуклы.</li>
+<li>Скалярное произведение $\lambda A=\{\lambda a\}$ выпуклого множества выпукло;
+более того, при $\lambda,\mu\ge 0$ и выпуклом $A$: $(\lambda+\mu)A=\lambda A+\mu A$.</li>
+<li>Образ выпуклого множества при линейном отображении выпукл.</li>
+<li>(Каратеодори, конечномерный случай) Если $A\subset\mathbb{R}^n$ и $x\in\mathrm{conv}\,A$,
+то $x$ есть выпуклая комбинация не более $n+1$ точек из $A$.</li>
+</ol>
+</div>
+
+<div class="proof">
+1) Для $A=\bigcap_\alpha A_\alpha$: при $x,y\in A$, $\lambda\in[0,1]$,
+$\lambda x+(1-\lambda)y\in A_\alpha$ для всех $\alpha$. 2)–4) — прямая проверка определения.
+<span class="qed">∎</span>
+</div>
+
+<div class="def">
+<em>$n$-мерным симплексом</em> в линейном пространстве называется выпуклая оболочка $n+1$
+точки $a_0,a_1,\dots,a_n$, аффинно независимых (т.&nbsp;е. векторы $a_1-a_0,\dots,a_n-a_0$
+линейно независимы):
+$$\Delta=\mathrm{conv}\,\{a_0,\dots,a_n\}=\Big\{\sum_{k=0}^n \lambda_k a_k:\;\lambda_k\ge 0,\;\sum\lambda_k=1\Big\}.$$
+Числа $\lambda_k$ называются <em>барицентрическими координатами</em>.
+</div>
+
+<div class="example">
+$0$-симплекс — точка; $1$-симплекс — отрезок; $2$-симплекс — треугольник; $3$-симплекс — тетраэдр.
+
+<strong>Стандартный симплекс</strong> в $\mathbb{R}^n$: $\Delta_n=\{x\in\mathbb{R}^n: x_i\ge 0,\;\sum x_i=1\}$.
+</div>
+
+<div class="remark">
+Симплексы — фундаментальные «строительные блоки» как в комбинаторной топологии (симплициальные комплексы),
+так и в теории выпуклых функционалов: всякое выпуклое тело в $\mathbb{R}^n$ можно покрыть
+конечным числом симплексов (триангуляция).
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 23 ============================ -->
+<div class="ticket" id="b23">
+<h2>Билет 23. Однородно-выпуклые функционалы.</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 4, 02.03.2026 — выпуклые функционалы</div>
+
+<div class="def">
+Функционал $p:L\to\mathbb{R}$ называется
+<ul>
+<li><em>выпуклым</em>, если $p(\lambda x+(1-\lambda)y)\le \lambda p(x)+(1-\lambda)p(y)$ при $\lambda\in[0,1]$;</li>
+<li><em>положительно-однородным</em>, если $p(\lambda x)=\lambda p(x)$ при $\lambda\ge 0$;</li>
+<li><em>однородно-выпуклым</em> (сублинейным), если выполнены оба условия одновременно.</li>
+</ul>
+</div>
+
+<div class="thm">
+<strong>Замечание (из конспекта).</strong> Если $p$ выпуклый и положительно-однородный, то
+автоматически выполнена <em>субаддитивность</em>:
+$$p(x+y)=p\!\left(2\cdot\tfrac{x+y}{2}\right)=2\,p\!\left(\tfrac{x+y}{2}\right)\le 2\bigl(\tfrac{1}{2}p(x)+\tfrac{1}{2}p(y)\bigr)=p(x)+p(y).$$
+Это объясняет, почему однородно-выпуклые функционалы эквивалентно задают так:
+</div>
+
+<div class="def">
+<strong>Эквивалентное определение.</strong> $p:L\to\mathbb{R}$ — однородно-выпуклый, если
+<ol>
+<li>(положительная однородность) $p(\lambda x)=\lambda p(x)$ для всех $x\in L$ и всех $\lambda\ge 0$;</li>
+<li>(субаддитивность) $p(x+y)\le p(x)+p(y)$ для всех $x,y\in L$.</li>
+</ol>
+</div>
+
+<div class="thm">
+<strong>Свойства.</strong> Пусть $p$ — однородно-выпуклый функционал. Тогда
+<ol>
+<li>$p(0)=0$.</li>
+<li>$p(x)\ge -p(-x)$ (но не обязательно $p(x)\ge 0$!).</li>
+<li>(Выпуклость в обычном смысле) $p(\lambda x+(1-\lambda)y)\le \lambda p(x)+(1-\lambda)p(y)$ для $\lambda\in[0,1]$.</li>
+<li>Множество $\{x:p(x)\lt 1\}$ выпукло (и поглощает $0$, если $p$ конечен).</li>
+</ol>
+</div>
+
+<div class="proof">
+(1) $p(0)=p(0\cdot 0)=0\cdot p(0)=0$.
+(2) $0=p(0)=p(x+(-x))\le p(x)+p(-x)$.
+(3) $p(\lambda x+(1-\lambda)y)\le p(\lambda x)+p((1-\lambda)y)=\lambda p(x)+(1-\lambda)p(y)$.
+(4) Из (3) видно, что $\{p\lt 1\}$ выпукло.
+<span class="qed">∎</span>
+</div>
+
+<div class="example">
+<strong>1)</strong> Всякая полунорма (а тем более норма) — однородно-выпуклый функционал.<br>
+<strong>2)</strong> $p(x)=\max(x_1,\dots,x_n)$ на $\mathbb{R}^n$ — сублинейный.<br>
+<strong>3)</strong> Линейный функционал тоже однородно-выпуклый, причём $p(-x)=-p(x)$.<br>
+<strong>4)</strong> Функционал Минковского выпуклого поглощающего множества (см. билет 24).
+</div>
+
+<div class="remark">
+Однородно-выпуклые функционалы возникают как мажоранты в теореме Хана–Банаха
+(билет 25). Существенно: они <em>не обязаны</em> быть знакоопределёнными.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 24 ============================ -->
+<div class="ticket" id="b24">
+<h2>Билет 24. Функционал Минковского (с доказательством).</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекция 4, 02.03.2026 — функционал Минковского</div>
+
+<div class="def">
+Пусть $A\subseteq L$ — выпуклое <em>поглощающее</em> множество (т.&nbsp;е. $0\in J(A)$:
+для каждого $x\in L$ найдётся $t>0$, что $x/t\in A$, или эквивалентно $tx\in A$ при малых $t$).
+<em>Функционалом Минковского</em> множества $A$ называется
+$$p_A(x):=\inf\{t>0: x/t\in A\}=\inf\{t>0: x\in tA\}.$$
+</div>
+
+<div class="thm">
+<strong>Теорема о функционале Минковского.</strong> Если $A$ — выпуклое поглощающее множество,
+содержащее $0$ во внутренности (в смысле ядра), то функционал $p_A$:
+<ol>
+<li>конечен на всём $L$ и неотрицателен: $0\le p_A(x)\lt \infty$;</li>
+<li>положительно однороден: $p_A(\lambda x)=\lambda p_A(x)$ для $\lambda\ge 0$;</li>
+<li>субаддитивен: $p_A(x+y)\le p_A(x)+p_A(y)$.</li>
+</ol>
+Кроме того, $J(A)\subseteq \{p_A\lt 1\}\subseteq A\subseteq \{p_A\le 1\}$. При $A$
+открытом (в каком-то топологическом смысле) $\{p_A\lt 1\}=A$.
+</div>
+
+<div class="proof">
+<strong>(1) Конечность.</strong> Так как $A$ поглощает, для каждого $x$ найдётся $t_0>0$ с
+$x/t_0\in A$, значит, $p_A(x)\le t_0\lt \infty$. Неотрицательность — по определению (инфимум по
+положительным $t$).
+
+<strong>(2) Однородность.</strong> При $\lambda>0$:
+$p_A(\lambda x)=\inf\{t>0:\lambda x/t\in A\}$. Замена $s=t/\lambda$:
+$=\inf\{\lambda s: s>0, x/s\in A\}=\lambda \inf\{s>0:x/s\in A\}=\lambda p_A(x)$.
+При $\lambda=0$: $p_A(0)=\inf\{t>0: 0\in A\}=0$ (поскольку $0\in A$).
+
+<strong>(3) Субаддитивность.</strong> Фиксируем $\varepsilon>0$. По определению инфимума найдутся
+$t,s>0$ такие, что $x/t\in A,\;y/s\in A$ и $t\lt p_A(x)+\varepsilon,\;s\lt p_A(y)+\varepsilon$.
+Положим $r=t+s$. Тогда
+$$\frac{x+y}{r}=\frac{t}{t+s}\cdot\frac{x}{t}+\frac{s}{t+s}\cdot\frac{y}{s}.$$
+Это <em>выпуклая комбинация</em> точек $x/t,y/s\in A$, поэтому $(x+y)/r\in A$ в силу выпуклости $A$.
+Значит, $p_A(x+y)\le r=t+s\lt p_A(x)+p_A(y)+2\varepsilon$. Устремляя $\varepsilon\to 0$:
+$p_A(x+y)\le p_A(x)+p_A(y)$.
+
+<strong>(4) Связь $\{p_A\lt 1\}$ и $A$.</strong> Если $x\in A$, то $x/1\in A$, значит $p_A(x)\le 1$.
+Если $p_A(x)\lt 1$, найдётся $t\lt 1$ с $x/t\in A$. Тогда $x=t\cdot(x/t)+(1-t)\cdot 0$ — выпуклая
+комбинация, значит $x\in A$ (если $0\in A$, что мы предполагали).
+Включение $J(A)\subseteq\{p_A\lt 1\}$: для $x\in J(A)$ луч $\{x+\tau x:\tau\in(-\varepsilon,\varepsilon)\}\subset A$,
+в частности $x(1+\varepsilon/2)\in A$, т.&nbsp;е. $\frac{x}{1/(1+\varepsilon/2)}\in A$, т.&nbsp;е.
+$p_A(x)\le \frac{1}{1+\varepsilon/2}\lt 1$.
+<span class="qed">∎</span>
+</div>
+
+<div class="remark">
+В нормированном пространстве с открытым шаром $A=B(0,1)$ функционал Минковского
+$p_A(x)=\|x\|$ — это сама норма. Так что $p_A$ — это «обобщённая норма»
+(может быть несимметричной), задаваемая выпуклым телом.
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 25 ============================ -->
+<div class="ticket" id="b25">
+<h2>Билет 25. Теорема Хана–Банаха (с доказательством для вещественного случая).</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекции 5–6, 23.03.2026 — теорема Хана–Банаха</div>
+
+<div class="thm">
+<strong>Теорема Хана–Банаха (в форме доминирования).</strong>
+Пусть $L$ — вещественное линейное пространство, $p:L\to\mathbb{R}$ — однородно-выпуклый функционал.
+Пусть $L_0\subseteq L$ — подпространство и $f_0:L_0\to\mathbb{R}$ — линейный функционал, удовлетворяющий
+$$f_0(x)\le p(x)\quad\text{для всех }x\in L_0.$$
+Тогда $f_0$ можно продолжить до линейного функционала $f:L\to\mathbb{R}$ такого, что
+$$f|_{L_0}=f_0\quad\text{и}\quad f(x)\le p(x)\quad\text{для всех }x\in L.$$
+</div>
+
+<div class="lemma">
+<strong>Лемма (продление на одно измерение).</strong> Пусть $f_0$ задан на подпространстве $L_0$,
+$f_0\le p$ на $L_0$. Пусть $z\notin L_0$ и $L_1=L_0\oplus\langle z\rangle$. Тогда $f_0$ можно
+продолжить до линейного $f_1$ на $L_1$ с $f_1\le p$ на $L_1$.
+</div>
+
+<div class="proof">
+Любой элемент $L_1$ — это $x+\lambda z$ при $x\in L_0$, $\lambda\in\mathbb{R}$.
+Линейное продолжение однозначно задаётся числом $c:=f_1(z)$:
+$f_1(x+\lambda z)=f_0(x)+\lambda c$.
+Нужно подобрать $c\in\mathbb{R}$ так, чтобы $f_0(x)+\lambda c\le p(x+\lambda z)$ для всех
+$x\in L_0,\lambda\in\mathbb{R}$.
+
+При $\lambda=0$ условие сводится к $f_0(x)\le p(x)$ — выполнено.
+При $\lambda>0$: $f_0(x)+\lambda c\le p(x+\lambda z)$, т.&nbsp;е. $c\le \dfrac{p(x+\lambda z)-f_0(x)}{\lambda}=p(x/\lambda+z)-f_0(x/\lambda)$.
+При $\lambda\lt 0$, $\lambda=-\mu$, $\mu>0$: $f_0(x)-\mu c\le p(x-\mu z)$, т.&nbsp;е. $c\ge \dfrac{f_0(x)-p(x-\mu z)}{\mu}=f_0(x/\mu)-p(x/\mu-z)$.
+
+Полагая $u=x/\lambda$, $v=x/\mu$ (произвольные элементы $L_0$), получаем требование:
+$$\sup_{v\in L_0}\bigl[f_0(v)-p(v-z)\bigr] \le c \le \inf_{u\in L_0}\bigl[p(u+z)-f_0(u)\bigr].$$
+
+Такое $c$ существует $\iff$ для любых $u,v\in L_0$:
+$$f_0(v)-p(v-z) \le p(u+z)-f_0(u),$$
+$$\Leftrightarrow f_0(u)+f_0(v)\le p(u+z)+p(v-z).$$
+Но $f_0(u)+f_0(v)=f_0(u+v)\le p(u+v)=p((u+z)+(v-z))\le p(u+z)+p(v-z)$ — выполнено
+по линейности $f_0$, условию $f_0\le p$ и субаддитивности $p$. Значит, $c$ существует. <span class="qed">∎</span>
+</div>
+
+<div class="proof">
+<strong>Доказательство теоремы (с помощью леммы Цорна).</strong> Рассмотрим множество
+$$\mathcal{P}=\{(M,g): L_0\subseteq M\subseteq L\text{ — подпространство},\;g:M\to\mathbb{R}\text{ линейно},\;g|_{L_0}=f_0,\;g\le p\text{ на }M\}.$$
+Множество $\mathcal{P}$ непусто (содержит $(L_0,f_0)$). Введём порядок: $(M_1,g_1)\le (M_2,g_2)$,
+если $M_1\subseteq M_2$ и $g_2|_{M_1}=g_1$. Это частичный порядок.
+
+<em>Цепи имеют верхнюю грань.</em> Пусть $\{(M_\alpha,g_\alpha)\}$ — цепь.
+Положим $M^*=\bigcup_\alpha M_\alpha$ — подпространство (так как объединение цепи подпространств — подпространство).
+Определим $g^*$ на $M^*$: для $x\in M^*$ найдём $\alpha$ с $x\in M_\alpha$ и положим $g^*(x)=g_\alpha(x)$
+— корректно (на пересечении $M_\alpha\cap M_\beta$ из цепи функции совпадают).
+$g^*$ линейно, $g^*|_{L_0}=f_0$, $g^*\le p$ на $M^*$. Значит $(M^*,g^*)\in\mathcal{P}$ — верхняя грань цепи.
+
+По лемме Цорна в $\mathcal{P}$ есть максимальный элемент $(M^{\max},f)$. Утверждаем,
+что $M^{\max}=L$. Если бы $M^{\max}\subsetneq L$, нашёлся бы $z\in L\setminus M^{\max}$,
+и по лемме о продлении мы бы продлили $f$ на $M^{\max}\oplus\langle z\rangle$ — противоречие с максимальностью.
+
+Таким образом $f$ определён на всём $L$, линеен, $f|_{L_0}=f_0$, $f\le p$. <span class="qed">∎</span>
+</div>
+
+<div class="remark">
+<strong>Следствия.</strong> Если $p$ — полунорма ($|f_0(x)|\le p(x)$), то продолжение тоже удовлетворяет
+$|f(x)|\le p(x)$: действительно, $-f(x)=f(-x)\le p(-x)=p(x)$, поэтому $|f(x)|\le p(x)$.
+
+В частности, в нормированном пространстве — продолжение с сохранением нормы (билет 49).
+</div>
+</div>
+
+<!-- ============================ БИЛЕТ 26 ============================ -->
+<div class="ticket" id="b26">
+<h2>Билет 26. Отделимость выпуклых множеств (с доказательством).</h2>
+<div class="lecture-mark" style="background:#f0f9ff;border-left:3px solid #0891b2;padding:6px 12px;margin:6px 0 12px;font-size:0.85em;color:#0e7490;font-style:italic;">📖 Лекции 5–6, 23.03.2026 — отделимость выпуклых</div>
+
+<div class="def">
+Говорят, что гиперплоскость $H=\{x:f(x)=c\}$ <em>отделяет</em> множества $A$ и $B$, если
+$f(a)\le c$ для всех $a\in A$ и $f(b)\ge c$ для всех $b\in B$ (или наоборот).
+Отделение называется <em>строгим</em>, если неравенства можно сделать строгими.
+</div>
+
+<div class="thm">
+<strong>Теорема об отделимости (геометрическая форма Хана–Банаха).</strong>
+Пусть $L$ — вещественное линейное пространство, $A,B\subset L$ — непустые непересекающиеся
+выпуклые множества, причём $A$ содержит внутреннюю точку (имеется в виду $J(A)\ne\varnothing$).
+Тогда существует ненулевой линейный функционал $f:L\to\mathbb{R}$ и число $c$ такие, что
+$$f(a)\le c \le f(b)\quad\forall a\in A,\;\forall b\in B.$$
+</div>
+
+<div class="proof">
+<strong>Шаг 1.</strong> Сведение к случаю «$0\in A$, точка отделения — $0$».
+Рассмотрим множество $C:=A-B=\{a-b: a\in A, b\in B\}$. Тогда $C$ выпукло (как разность выпуклых),
+$0\notin C$ (так как $A\cap B=\varnothing$), и $C$ содержит внутреннюю точку
+(если $a_0\in J(A)$, то $a_0-b_0\in J(C)$ для любого $b_0\in B$).
+
+Сдвинем: пусть $c_0\in J(C)$. Положим $D:=C-c_0$, тогда $0\in J(D)$, $D$ выпукло,
+и точка $-c_0\notin D$ (поскольку $0\notin C$).
+
+<strong>Шаг 2.</strong> Применим теорему Хана–Банаха.
+$D$ — выпуклое поглощающее множество, $0\in J(D)$. Рассмотрим функционал Минковского
+$p:=p_D$. По теореме о Минковском $p$ — однородно-выпуклый.
+Так как $-c_0\notin D$ и (по выпуклости в форме «открытое тело»): $-c_0\notin\{p\lt 1\}$, т.&nbsp;е.
+$p(-c_0)\ge 1$.
+
+Определим на одномерном подпространстве $L_0:=\langle -c_0\rangle$ линейный функционал
+$f_0(\lambda(-c_0)):=\lambda\cdot p(-c_0)$. Тогда:
+— при $\lambda\ge 0$: $f_0(\lambda(-c_0))=\lambda p(-c_0)=p(\lambda(-c_0))$.
+— при $\lambda\lt 0$: $f_0(\lambda(-c_0))=\lambda p(-c_0)\lt 0\le p(\lambda(-c_0))$.
+Итак, $f_0\le p$ на $L_0$.
+
+По теореме Хана–Банаха (билет 25) продолжаем $f_0$ до линейного $f:L\to\mathbb{R}$ с $f\le p$.
+Поскольку $f(-c_0)=p(-c_0)\ge 1>0$, функционал $f$ ненулевой.
+
+<strong>Шаг 3.</strong> Извлечение неравенств.
+Для $x\in D$: $p(x)\le 1$, значит $f(x)\le 1$. Раскрутим $D=A-B-c_0$: при $a\in A, b\in B$
+$f(a-b-c_0)\le 1$, т.&nbsp;е. $f(a)-f(b)\le 1+f(c_0)$. Но также $f(-c_0)\ge 1$, т.&nbsp;е. $f(c_0)\le -1$.
+Значит, $f(a)-f(b)\le 1+f(c_0)\le 0$, т.&nbsp;е. $f(a)\le f(b)$ для всех $a\in A,b\in B$.
+
+Положим $c=\sup_{a\in A} f(a)\le \inf_{b\in B}f(b)$. Тогда $f(a)\le c\le f(b)$ для всех $a,b$. <span class="qed">∎</span>
+</div>
+
+<div class="remark">
+В нормированном пространстве из этой теоремы получают <em>строгое</em> отделение:
+если $A$ выпукло замкнуто, $B$ выпукло компактно, $A\cap B=\varnothing$, то найдётся
+$f\in L^*$ и $c_1\lt c_2$ с $f(a)\le c_1\lt c_2\le f(b)$ — теорема об отделимости в банаховых пространствах.
+</div>
+</div>
+
+<div class="nav">
+  <a href="index.html">← оглавление</a>
+  <a href="part1-metric.html">← Часть I</a>
+  <a href="part3-normed.html">Часть III →</a>
+</div>
+
+</body>
+</html>
